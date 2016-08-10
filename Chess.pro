@@ -13,9 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    king.cpp \
+    board.cpp
 
 HEADERS  += mainwindow.h \
-    piece.h
+    piece.h \
+    king.h \
+    board.h
 
 FORMS    += mainwindow.ui

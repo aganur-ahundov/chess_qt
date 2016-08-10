@@ -1,15 +1,20 @@
 #ifndef PIECE_H
 #define PIECE_H
 
+#include <QLabel>
+#include <QMouseEvent>
+
+class Board;
 
 //абстрактный класс - шахматная фигура
 class Piece
+        : public QLabel //----> for mouse click event
 {
 
 /*-----------------------------------------------*/
 protected:
-    Piece( bool _isWhite, int _x = 0, int _y = 0 );
-    ~Piece() = default;
+    Piece( QWidget * _parent, bool _isWhite, int _x = 0, int _y = 0 );
+    virtual ~Piece() = default;
 
 
 
@@ -26,8 +31,18 @@ public:
     bool isWhite() const;
 
 
+    void display() const = 0;
+    //void hide() const;   //delete figure from board
+
+
+    void mousePressEvent( QMouseEvent *_e );   //maybe it's correct choose
+
+private:
     //function for moving ( all pieces have different 'steps' )
-    void move() = 0;
+    void move( Board & _b ) = 0;
+    //choose all cells for moving
+    void check_steps( Board const & _b ) = 0;
+
 
 /*-----------------------------------------------*/
 private:
@@ -55,6 +70,13 @@ inline int Piece::getY() const
 inline bool Piece::isWhite() const
 {
     return m_white;
+}
+
+
+inline void Piece::mousePressEvent(QMouseEvent *_e)
+{
+    //?????????????????????/
+    //check_steps();
 }
 
 /**********************************************************************************/
