@@ -4,6 +4,7 @@
 #
 #-------------------------------------------------
 
+
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -23,3 +24,10 @@ HEADERS  += mainwindow.h \
     board.h
 
 FORMS    += mainwindow.ui
+
+
+
+#------------------------------------
+#by myself
+CONFIG += c++11
+#------------------------------------

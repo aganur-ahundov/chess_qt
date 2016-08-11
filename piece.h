@@ -2,27 +2,32 @@
 #define PIECE_H
 
 #include <QLabel>
-#include <QMouseEvent>
+//#include <QObject>
 
 class Board;
 
 //абстрактный класс - шахматная фигура
 class Piece
-        : public QLabel //----> for mouse click event
-{
+        //: public QObject  //for using QPointer
+        : public QLabel //----> for mouse click event   ????????????????????????//
 
+{
+    Q_OBJECT
 /*-----------------------------------------------*/
 protected:
-    Piece( QWidget * _parent = 0, bool _isWhite, int _x = 0, int _y = 0 );
-    virtual ~Piece() = default;
-
+    Piece( QWidget* _parent, bool _isWhite, int _x, int _y )
+        :QLabel(_parent), m_x(_x), m_y(_y), m_white(_isWhite)
+    {
+    }
 
 
 /*-----------------------------------------------*/
 public:
-    //явно выраженная сущность
-    Piece( Piece const & _p ) = delete;
-    Piece & operator = ( Piece const & _p ) = delete;
+    virtual ~Piece() = default;
+
+//    //явно выраженная сущность
+//    Piece( Piece const & _p ) = delete;
+//    Piece & operator = ( Piece const & _p ) = delete;
 
 
     //getters
@@ -31,17 +36,16 @@ public:
     bool isWhite() const;
 
 
-    void display() const = 0;
-    //void hide() const;   //delete figure from board
+    virtual void display() const = 0;
+
+    //choose all cells for moving
+    virtual QVector <QPoint> getVectorOfPossibleMoves( Board const & _b ) = 0;
 
 
-    void mousePressEvent( QMouseEvent *_e );   //maybe it's correct choose
-
+/*---------------------------------------------------------------------*/
 private:
     //function for moving ( all pieces have different 'steps' )
-    void move( Board & _b ) = 0;
-    //choose all cells for moving
-    void check_steps( Board const & _b ) = 0;
+    virtual void moving( Board const & _b ) = 0;
 
 
 /*-----------------------------------------------*/
@@ -73,10 +77,11 @@ inline bool Piece::isWhite() const
 }
 
 
-inline void Piece::mousePressEvent(QMouseEvent *_e)
-{
-    //?????????????????????/
-}
+//inline void Piece::mousePressEvent(QMouseEvent *_e)
+//{
+//
+//    //check_steps();
+//}
 
 /**********************************************************************************/
 #endif // PIECE_H

@@ -3,17 +3,16 @@
 
 #include "piece.h"
 
-class King
-        : public Piece
+class King: public Piece
 {
-
+Q_OBJECT
 /*----------------------------------------------------*/
 public:
     King( QWidget* _parent, bool _isWhite, int _x, int _y );
     ~King() = default;
 
-    void move( Board & _b ) override;
-    void check_steps( Board const & _b ) override;
+    QVector < QPoint > getVectorOfPossibleMoves( const Board &_b ) override;
+
     void display() const override;
 };
 
