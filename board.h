@@ -7,12 +7,12 @@
 class Piece;
 
 class Board
-        //: public QWidget
+        : public QWidget
 {
 
 public:
 /*---------------------------------------------------------------*/
-    Board();
+    Board( bool _whitesGoing = 1, QWidget* _parent = 0 );
     ~Board() = default;
 
     void display() const;
@@ -21,13 +21,14 @@ public:
     Piece* getCell( int _i, int j) const;
 
 protected:
-    void mousePressEvent(QMouseEvent * _e);
+    void mousePressEvent( QMouseEvent * _e );
     void paintEvent(QPaintEvent* _e);
 
 
 /*---------------------------------------------------------------*/
 private:
     QPointer < Piece >** m_pieces;
+    bool m_whitesGoing;
 
 };
 

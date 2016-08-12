@@ -16,12 +16,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     king.cpp \
-    board.cpp
+    board.cpp \
+    queen.cpp
 
 HEADERS  += mainwindow.h \
     piece.h \
     king.h \
-    board.h
+    board.h \
+    queen.h
 
 FORMS    += mainwindow.ui
 
