@@ -18,13 +18,13 @@ void King::display() const
 void King::check_position(const Board &_b, QVector < QPoint > & _v, int _dispI, int _dispJ ) const
 {
     if(  _b.getCell( getX() + _dispI, getY() + _dispJ ) == nullptr
-            || _b.getCell( getX() + dispI, getY() + _dispJ )->isWhite() != isWhite() )
+            || _b.getCell( getX() + _dispI, getY() + _dispJ )->isWhite() != isWhite() )
         _v.push_back( QPoint( getX() + _dispI, getY() + _dispJ ) );
 }
 
 
 
-QVector< QPoint > King::getVectorOfPossibleMoves(const Board &_b)
+QVector< QPoint > King::getVectorOfPossibleMoves(const Board &_b)  const
 {
     QVector < QPoint > moves;
 

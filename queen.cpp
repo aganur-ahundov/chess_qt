@@ -7,30 +7,51 @@ Queen::Queen( QWidget* _parent, bool _isWhite, int _x, int _y )
 }
 
 
+void Queen::check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const
+{
+    int i = getX() + _directI;
+    int j = getY() + _directJ;
+
+
+    while( i >= 0 && i < 8 &&
+           j >= 0 && j < 8 )
+    {
+        if ( _b.getCell( i, j ) == nullptr )
+            _v.push_back( QPoint( i, j ) );
+        else if( _b.getCell( i, j )->isWhite() != isWhite() )
+        {
+            _v.push_back( QPoint ( i, j ) );
+            return;
+        }
+        else
+            return;
+
+        i += _directI;
+        j += _directJ;
+    }
+
+
+}
+
 QVector < QPoint > Queen::getVectorOfPossibleMoves( const Board & _b ) const
 {
     QVector < QPoint > moves;
-    int i = getX();
-    int j = getY();
+
+    check_position( _b, moves, -1, -1 );
+    check_position( _b, moves, 0, -1 );
+    check_position( _b, moves, 1, -1 );
+    check_position( _b, moves, 1, 0 );
+    check_position( _b, moves, 1, 1 );
+    check_position( _b, moves, 0, 1 );
+    check_position( _b, moves, -1, 1 );
+    check_position( _b, moves, -1, 0 );
+
+    return moves;
+
+}
 
 
-    i++; j--;  //direction
-    while( _b.getCell( i, j ) == nullptr
-           && i >= 0
-           && i < 8
-           && j >= 0
-           && j < 8
-           )
-    {
-        moves.push_back( QPoint( i, j ) );
+void Queen::display() const
+{
 
-        i++; j--;
-
-        if( _b.getCell( i, j ) != nullptr
-                && _b.getCell( i, j)->isWhite() != isWhite() )
-        {
-            moves.push_back( QPoint ( i, j ) );
-            break;
-        }
-    }
 }
