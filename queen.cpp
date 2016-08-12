@@ -13,8 +13,8 @@ void Queen::check_position( Board const & _b, QVector <QPoint> & _v, int _direct
     int j = getY() + _directJ;
 
 
-    while( i >= 0 && i < 8 &&
-           j >= 0 && j < 8 )
+    while( i >= 0 && i < Board::MAX_WIDTH &&
+           j >= 0 && j < Board::MAX_HEIGHT )
     {
         if ( _b.getCell( i, j ) == nullptr )
             _v.push_back( QPoint( i, j ) );

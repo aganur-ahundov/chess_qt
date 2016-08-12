@@ -17,9 +17,18 @@ void King::display() const
 
 void King::check_position(const Board &_b, QVector < QPoint > & _v, int _dispI, int _dispJ ) const
 {
-    if(  _b.getCell( getX() + _dispI, getY() + _dispJ ) == nullptr
-            || _b.getCell( getX() + _dispI, getY() + _dispJ )->isWhite() != isWhite() )
-        _v.push_back( QPoint( getX() + _dispI, getY() + _dispJ ) );
+
+    int i = getX() + _dispI;
+    int j = getY() + _dispJ;
+
+    if ( i >= 0 && i < Board::MAX_WIDTH &&
+         j >= 0 && i < Board::MAX_HEIGHT  )
+    {
+        if(  _b.getCell( i, j ) == nullptr )
+            _v.push_back( QPoint( i, j ) );
+        else if ( _b.getCell( i, j )->isWhite() != isWhite() )
+            _v.push_back( QPoint( i, j ) );
+    }
 }
 
 

@@ -17,13 +17,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     king.cpp \
     board.cpp \
-    queen.cpp
+    queen.cpp \
+    pawn.cpp
 
 HEADERS  += mainwindow.h \
     piece.h \
     king.h \
     board.h \
-    queen.h
+    queen.h \
+    pawn.h
 
 FORMS    += mainwindow.ui
 

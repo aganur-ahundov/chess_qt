@@ -20,6 +20,10 @@ public:
 
     Piece* getCell( int _i, int j) const;
 
+
+    const static int MAX_WIDTH = 8;
+    const static int MAX_HEIGHT = 8;
+
 protected:
     void mousePressEvent( QMouseEvent * _e );
     void paintEvent(QPaintEvent* _e);
@@ -34,8 +38,8 @@ private:
 
 inline Piece* Board::getCell( int _i, int _j ) const
 {
-    if( _i < 0 || _i >= 8 ||
-        _j < 0 || _j >= 8 )
+    if( _i < 0 || _i >= MAX_WIDTH ||
+        _j < 0 || _j >= MAX_HEIGHT )
         throw std::runtime_error( "Invalidate position!" );
 
     return m_pieces[_i][_j].data();
