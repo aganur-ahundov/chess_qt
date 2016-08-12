@@ -18,14 +18,20 @@ SOURCES += main.cpp\
     king.cpp \
     board.cpp \
     queen.cpp \
-    pawn.cpp
+    pawn.cpp \
+    knight.cpp \
+    bishop.cpp \
+    rook.cpp
 
 HEADERS  += mainwindow.h \
     piece.h \
     king.h \
     board.h \
     queen.h \
-    pawn.h
+    pawn.h \
+    knight.h \
+    bishop.h \
+    rook.h
 
 FORMS    += mainwindow.ui
 
