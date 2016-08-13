@@ -17,8 +17,7 @@ public:
     explicit IGraphicsController( QWidget *parent = 0 );
     ~IGraphicsController() = default;
 
-//    void createPiece( Piece const & _p, QPoint _xy );
-//    QPoint toBoardCoordinates( QPoint _xy ) const;
+    void createPiece( Piece const & _p, QPoint _xy );
 
 signals:
 
@@ -35,6 +34,7 @@ protected:
 private:
     void setBackground();
     void loadPiecesInfo();
+    QPoint toBoardCoordinates( QPoint _xy ) const;
 
 private:
     QPointer < QLabel > ** m_gameBoard;
