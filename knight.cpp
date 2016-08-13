@@ -8,13 +8,12 @@ Knight::Knight( bool _isWhite, int _x, int _y )
 }
 
 
-void Knight::check_position(const Board &_b, QVector<QPoint> _v, int _directI, int _directJ) const
+void Knight::check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const
 {
     int i = getX() + _directI;
     int j = getY() + _directJ;
 
-    if( i > 0 && i < Board::MAX_WIDTH &&
-            j > 0 && j < Board::MAX_HEIGHT )
+    if( posIsValid( QPoint ( i, j ) ) )
     {
         tryAddPosition( _b, _v, i, j );
     }

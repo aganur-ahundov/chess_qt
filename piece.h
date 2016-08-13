@@ -18,8 +18,10 @@ protected:
 
     Piece( bool _isWhite, int _x, int _y );
 
-    void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const;
+    virtual void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const;
     void tryAddPosition( Board const & _b, QVector <QPoint> & _v, int _i, int _j ) const;
+    bool posIsValid( QPoint _p ) const;
+
 
 /*-----------------------------------------------*/
 public:
@@ -43,11 +45,6 @@ public:
 
     //choose all cells for moving
     virtual QVector <QPoint> getVectorOfPossibleMoves( Board const & _b ) const = 0;
-
-
-/*-------------------------------------------------------------------*/
-private:
-    bool posIsValid( QPoint _p ) const;
 
 /*-----------------------------------------------*/
 private:

@@ -14,8 +14,7 @@ void King::check_position(const Board &_b, QVector < QPoint > & _v, int _dispI, 
     int i = getX() + _dispI;
     int j = getY() + _dispJ;
 
-    if ( i >= 0 && i < Board::MAX_WIDTH &&
-         j >= 0 && i < Board::MAX_HEIGHT  )
+    if ( posIsValid( QPoint ( i,j ) ) )
     {
         tryAddPosition( _b, _v, i, j );
     }

@@ -12,8 +12,8 @@ public:
 
     QVector < QPoint > getVectorOfPossibleMoves( const Board &_b ) const override;
 
-private:
-   void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const;
+protected:
+   void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const override;
 };
 
 #endif // KING_H

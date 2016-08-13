@@ -13,8 +13,7 @@ void Pawn::check_position(const Board &_b, QVector<QPoint> &_v, int _directI, in
     int j = getY() + _directJ;
 
 
-    if( i >= 0 && i < Board::MAX_WIDTH &&
-            j >= 0 && j < Board::MAX_HEIGHT )
+    if( posIsValid( QPoint ( i, j ) ) )
     {   //check for enemys
         if ( _b.getCell( i, j ) != nullptr )
         {
