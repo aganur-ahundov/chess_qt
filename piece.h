@@ -1,27 +1,25 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include <QLabel>
-//#include <QObject>
+
+#include <QObject>
+#include <QPoint>
+#include <stdexcept>
 
 class Board;
 
 //абстрактный класс - шахматная фигура
 class Piece
-        //: public QObject  //for using QPointer
-        : public QLabel //----> for mouse click event   ????????????????????????//
-
+        : public QObject  //for using QPointer
 {
     Q_OBJECT
 /*-----------------------------------------------*/
 protected:
-    Piece( QWidget* _parent, bool _isWhite, int _x, int _y )
-        :QLabel(_parent), m_white(_isWhite)
-    {
-        setX(_x);
-        setY(_y);
-    }
 
+    Piece( bool _isWhite, int _x, int _y );
+
+    void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const;
+    void tryAddPosition( Board const & _b, QVector <QPoint> & _v, int _i, int _j ) const;
 
 /*-----------------------------------------------*/
 public:
@@ -42,11 +40,14 @@ public:
 
 /*-------------------------------------------------------------------*/
 
-    virtual void display() const = 0;
 
     //choose all cells for moving
     virtual QVector <QPoint> getVectorOfPossibleMoves( Board const & _b ) const = 0;
 
+
+/*-------------------------------------------------------------------*/
+private:
+    bool posIsValid( QPoint _p ) const;
 
 /*-----------------------------------------------*/
 private:
@@ -77,6 +78,13 @@ inline bool Piece::isWhite() const
 }
 
 
+inline bool Piece::posIsValid( QPoint _xy) const
+{
+    return _xy.x() >= 0 && _xy.x() < 8 &&
+            _xy.y() >= 0 && _xy.y() < 8;
+}
+
+
 inline void Piece::setX(int _x)
 {
     if( _x < 0 || _x >= 8 )
@@ -97,18 +105,12 @@ inline void Piece::setY( int _y )
 
 inline void Piece::setPos( QPoint _xy )
 {
-    if( _xy.x() < 0 || _xy.x() >= 8 ||
-        _xy.y() < 0 || _xy.y() >= 8 )
+    if( !posIsValid( _xy ) )
         throw std::runtime_error( "Invalidate new position!" );
 
     m_x = _xy.x();
     m_y = _xy.y();
 }
-//inline void Piece::mousePressEvent(QMouseEvent *_e)
-//{
-//
-//    //check_steps();
-//}
 
 /**********************************************************************************/
 #endif // PIECE_H

@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     pawn.cpp \
     knight.cpp \
     bishop.cpp \
-    rook.cpp
+    rook.cpp \
+    piece.cpp
 
 HEADERS  += mainwindow.h \
     piece.h \

@@ -1,8 +1,8 @@
 #include "pawn.h"
 #include "board.h"
 
-Pawn::Pawn( QWidget* _parent, bool _isWhite, int _x, int _y )
-    :Piece( _parent, _isWhite, _x, _y )
+Pawn::Pawn( bool _isWhite, int _x, int _y )
+    :Piece( _isWhite, _x, _y )
 {
 }
 
@@ -62,8 +62,3 @@ QVector < QPoint > Pawn::getVectorOfPossibleMoves( const Board & _b ) const
     return moves;
 }
 
-
-void Pawn::display() const
-{
-
-}
