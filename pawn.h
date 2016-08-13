@@ -6,7 +6,7 @@
 class Pawn : public Piece
 {
 public:
-    Pawn( bool _isWhite, int _x, int _y );
+    Pawn( QString const & _title, bool _isWhite, int _x, int _y );
     ~Pawn() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;

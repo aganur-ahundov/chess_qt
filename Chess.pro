@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     knight.cpp \
     bishop.cpp \
     rook.cpp \
-    piece.cpp
+    piece.cpp \
+    igraphicscontroller.cpp
 
 HEADERS  += mainwindow.h \
     piece.h \
@@ -32,7 +33,9 @@ HEADERS  += mainwindow.h \
     pawn.h \
     knight.h \
     bishop.h \
-    rook.h
+    rook.h \
+    igraphicscontroller.h \
+    pieces_title.h
 
 FORMS    += mainwindow.ui
 

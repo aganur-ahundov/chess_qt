@@ -13,8 +13,8 @@ class IGraphicController;
 
 
 class Board
-        //: public QWidget
 {
+
 public:
 /*---------------------------------------------------------------*/
     Board( bool _whitesGoing = 1 );

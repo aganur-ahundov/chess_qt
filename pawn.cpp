@@ -1,8 +1,8 @@
 #include "pawn.h"
 #include "board.h"
 
-Pawn::Pawn( bool _isWhite, int _x, int _y )
-    :Piece( _isWhite, _x, _y )
+Pawn::Pawn( QString const & _title, bool _isWhite, int _x, int _y )
+    :Piece( _title, _isWhite, _x, _y )
 {
 }
 

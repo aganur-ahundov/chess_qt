@@ -13,7 +13,8 @@ void Board::move_figure(Piece *_p, QPoint _c)    //отправлять сооб
     if ( !posIsValid( _c ) )
         throw std::runtime_error( "Invalid position" );
 
-    if( m_pieces[_c.x()][_c.y()] != nullptr && m_pieces[_c.x()][_c.y()]->isWhite() != _p->isWhite() )
+    if( m_pieces[_c.x()][_c.y()] != nullptr )
+        if ( m_pieces[_c.x()][_c.y()]->isWhite() != _p->isWhite() )
     {
         return; //The reaction on "fail" position. may be error or return false???
     }

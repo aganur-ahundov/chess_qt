@@ -7,7 +7,7 @@ class Bishop
         : public Piece
 {
 public:
-    Bishop(  bool _isWhite, int _x, int _y );
+    Bishop( QString const & _title,  bool _isWhite, int _x, int _y );
     ~Bishop() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;

@@ -7,7 +7,7 @@ class Rook
         : public Piece
 {
 public:
-    Rook( bool _isWhite, int _x, int _y );
+    Rook( QString const & _title, bool _isWhite, int _x, int _y );
     ~Rook() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;

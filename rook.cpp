@@ -1,8 +1,8 @@
 #include "rook.h"
 #include "board.h"
 
-Rook::Rook( bool _isWhite, int _x, int _y )
-    :Piece( _isWhite, _x, _y )
+Rook::Rook( QString const & _title, bool _isWhite, int _x, int _y )
+    :Piece( _title, _isWhite, _x, _y )
 {
 }
 

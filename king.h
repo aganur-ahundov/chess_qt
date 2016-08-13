@@ -7,7 +7,7 @@ class King: public Piece
 {
 /*----------------------------------------------------*/
 public:
-    King( bool _isWhite, int _x, int _y );
+    King( QString const & _title, bool _isWhite, int _x, int _y );
     ~King() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves( const Board &_b ) const override;

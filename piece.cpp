@@ -1,8 +1,8 @@
 #include "piece.h"
 #include "board.h"
 
-Piece::Piece( bool _isWhite, int _x, int _y )
-    :m_white( _isWhite )
+Piece::Piece( QString const & _title,  bool _isWhite, int _x, int _y )
+    :m_white( _isWhite ), m_title ( _title )
 {
     setX(_x);
     setY(_y);

@@ -1,8 +1,8 @@
 #include "king.h"
 #include "board.h"
 
-King::King( bool _isWhite, int _x, int _y)
-    :Piece( _isWhite, _x, _y)
+King::King( QString const & _title, bool _isWhite, int _x, int _y)
+    :Piece( _title, _isWhite, _x, _y)
 {
 
 }
