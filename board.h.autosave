@@ -16,7 +16,7 @@ class Board
 
 public:
 /*---------------------------------------------------------------*/
-    Board( IGraphicController* _g, bool _whitesGoing = 1 );
+    Board( IGraphicsController* _g, bool _whitesGoing = 1 );
     ~Board() = default;
 /*---------------------------------------------------------------*/
 

@@ -7,29 +7,30 @@
 
 
 class Piece;
+class BoardWidget;
 
 
 class IGraphicsController
-        : public QWidget
 {
-    Q_OBJECT
 public:
-    explicit IGraphicsController( QWidget *parent = 0 );
+    explicit IGraphicsController();
     ~IGraphicsController() = default;
 
-    void createPiece( Piece const & _p, QPoint _xy );
+    void repaint_board() const;
+    void create_piece() const; //??????????????/
+    void reset_board() const;  //all pieces/labels on default position
+
+////////////////////////////////////////////////////////
+    //void paintPauseMenu();
+    // and alike methods??
+/////////////////////////////////////////////////////////
 
 signals:
-
+    void clicked_on_board( QPoint _xy ); // signal send board coordinates
 
 public slots:
-//    void move_piece( QPoint _from, QPoint _to );
-//    void delete_piece( QPoint _xy );
-
-
-protected:
-//    void mousePressEvent( QMouseEvent* _e );
-//    void paintEvent( QPaintEvent* _e );
+    void move_piece( QPoint _from, QPoint _to );  //using BoardWidget methods
+    void delete_piece( QPoint _xy );
 
 private:
     void setBackground();
@@ -37,9 +38,9 @@ private:
     QPoint toBoardCoordinates( QPoint _xy ) const;
 
 private:
-    QPointer < QLabel > ** m_gameBoard;
-    QPainter* m_painter;                            //may be it will be need
-    QMap < QString, QString > m_piecesAndRoutes;    //pieces title and routes for pictures
+    QMap < QString, QString >       m_piecesAndRoutes;    //pieces title and routes for pictures
+    QSharedPointer < BoardWidget >  m_gameBoard;
 };
+
 
 #endif // IGRAPHICSCONTROLLER_H
