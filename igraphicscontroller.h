@@ -17,7 +17,7 @@ public:
     ~IGraphicsController() = default;
 
     void repaint_board() const;
-    void create_piece() const; //??????????????/
+    void create_piece( QString const & _title, QPoint _xy ) const; //??????????????/
     void reset_board() const;  //all pieces/labels on default position
 
 ////////////////////////////////////////////////////////
