@@ -18,6 +18,7 @@ public:
     void repaint_board() const;
     void create_piece( QString const & _title, QPoint _xy ) const; //??????????????/
     void reset_board() const;  //all pieces/labels on default position
+    void show() const;  //show board
 
 ////////////////////////////////////////////////////////
     //void paintPauseMenu();
@@ -40,6 +41,7 @@ private:
     QMap < QString, QString >       m_piecesAndRoutes;    //pieces title and routes for pictures
     QSharedPointer < BoardWidget >  m_gameBoard;
 };
+
 
 
 #endif // IGRAPHICSCONTROLLER_H

@@ -15,11 +15,22 @@ BoardWidget::BoardWidget( QWidget *parent )
 }
 
 
+QPoint BoardWidget::toWidgetCoordinates(QPoint _xy) const
+{
+    QPoint newPoint;
+    newPoint.setX( _xy.x() * size().width()/8 );  //+/- some pixels
+    newPoint.setY( _xy.y() * size().height()/8 );
+
+    return newPoint;
+}
+
+
 void BoardWidget::createPiece( const QString & _path, QPoint _xy )
 {
     QLabel* newPiece = new QLabel( this );
     newPiece->setPixmap( QPixmap( _path ) );
     m_gameBoard[_xy.x()][_xy.y()].reset( newPiece );
+    newPiece->move( toWidgetCoordinates( _xy ) );
 }
 
 
@@ -31,7 +42,7 @@ void BoardWidget::move_piece( QPoint _from, QPoint _to )
     m_gameBoard[ _to.x() ][ _to.y() ].reset( m_gameBoard[ _from.x() ][ _from.y() ].data() );
     m_gameBoard[ _from.x() ][ _from.y() ].clear();
 
-    m_gameBoard[ _to.x() ][ _to.y() ]->move( _to.x() * size().width()/8, _to.y() * size().height()/8 );  //+/- some pixels
+    m_gameBoard[ _to.x() ][ _to.y() ]->move( toWidgetCoordinates( _to ) );
 }
 
 

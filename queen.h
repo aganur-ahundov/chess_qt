@@ -11,7 +11,7 @@ public:
     ~Queen() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
-    QString const & getTitle() const override;
+    QString const & getTitle() const;
 
 };
 

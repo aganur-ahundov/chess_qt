@@ -23,6 +23,8 @@ public:
     void move_figure( Piece* _p, QPoint _c );
     Piece* getCell( int _i, int j) const;
     QVector < QPoint > & getVectorOfPossiblePieceMoves( const Piece* _p ) const;
+    void restart(); //all pieces on default positions
+    void clear();   //clear all data
 
 
     const static int MAX_WIDTH = 8;
@@ -52,7 +54,7 @@ private:
     /*--------------------------------------------------------------------*/
     QSharedPointer < Piece >** m_pieces;
     IGraphicsController*  m_IGraphic;
-    //QVector < QSharedPointer < Piece > > m_crushedPieces;
+    QVector < QSharedPointer < Piece > > m_crushedPieces;  //??????????
     bool m_whitesGoing;
     /*--------------------------------------------------------------------*/
 

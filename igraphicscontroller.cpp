@@ -78,3 +78,8 @@ void IGraphicsController::create_piece(const QString &_title, QPoint _xy) const
 
     m_gameBoard->createPiece( it.value(), _xy );
 }
+
+void IGraphicsController::show() const
+{
+    m_gameBoard->show();
+}

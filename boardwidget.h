@@ -31,6 +31,9 @@ protected:
    // void paintEvent( QPaintEvent* _e );
 
 private:
+    QPoint toWidgetCoordinates( QPoint _xy ) const;
+
+private:
     QSharedPointer < QLabel > ** m_gameBoard;
 };
 
