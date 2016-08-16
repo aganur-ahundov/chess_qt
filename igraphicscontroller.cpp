@@ -70,4 +70,11 @@ void IGraphicsController::repaint_board() const
     m_gameBoard->repaint();
 }
 
+void IGraphicsController::create_piece(const QString &_title, QPoint _xy) const
+{
+    auto it = m_piecesAndRoutes.constFind( _title );
+    if ( it == m_piecesAndRoutes.end() )
+        throw std::runtime_error( "Piece with this title hasn't been find" );
 
+    m_gameBoard->createPiece( it.value(), _xy );
+}

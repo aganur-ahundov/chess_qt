@@ -1,22 +1,24 @@
+//##########################################
+//##########################################
 #include "board.h"
-#include "piece.h"
-#include "pieces_title.h"
 #include "igraphicscontroller.h"
-#include <QSharedPointer>
+#include "pawn.h"
+#include "bishop.h"
+#include "king.h"
+#include "queen.h"
+#include "rook.h"
+//##########################################
+//##########################################
 
-Board::Board( IGraphicController* _g, bool _whitesGoing )
-    :m_whitesGoing ( _whitesGoing ), m_IGraphic( g )
+
+
+Board::Board( IGraphicsController* _g, bool _whitesGoing )
+    :m_whitesGoing ( _whitesGoing ), m_IGraphic( _g )
 {
     m_pieces = new QSharedPointer < Piece >* [Board::MAX_WIDTH];
 
     for ( int i = 0; i < Board::MAX_WIDTH; i++ )
         m_pieces[i] = new QSharedPointer < Piece > [Board::MAX_HEIGHT];   //????????????
-
-    //method reset()
-    m_pieces[0][0].reset( new Piece( PiecesTitle::BlackRook, false, 0, 0 ) );
-    m_pieces[0][1].reset( new Piece( PiecesTitle::BlackBishop, false, 0, 1 ) );
-    m_pieces[0][2].reset( new Piece( PiecesTitle::BlackKnight, false, 0, 2 ) );
-    m_pieces[0][3].reset( new Piece( PiecesTitle::BlackQueen, false, 0, 3 ) );  //or King???
 
 }
 
@@ -27,9 +29,11 @@ void Board::move_figure(Piece *_p, QPoint _c)    //отправлять сооб
         throw std::runtime_error( "Invalid position" );
 
     if( m_pieces[_c.x()][_c.y()].isNull() == false )
+     {
         if ( m_pieces[_c.x()][_c.y()]->isWhite() != _p->isWhite() )
-    {
-        return; //The reaction on "fail" position. may be error or return false???
+        {
+            return; //The reaction on "fail" position. may be error or return false???
+        }
     }
     else
     {
@@ -37,4 +41,56 @@ void Board::move_figure(Piece *_p, QPoint _c)    //отправлять сооб
         m_pieces[ _p->getX() ][ _p->getY() ].clear();
         _p->setPos( _c );
     }
+}
+
+void Board::create_pawn( QPoint _xy, bool _isWhite )
+{
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Pawn( _isWhite, _xy.x(), _xy.y() ) );
+
+    QString _title = ( _isWhite ) ? PiecesTitle::WhitePawn : PiecesTitle::BlackPawn;
+    m_IGraphic->create_piece( _title, _xy );
+}
+
+
+void Board::create_bishop( QPoint _xy, bool _isWhite )
+{
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Bishop( _isWhite, _xy.x(), _xy.y() ) );
+
+    QString _title = ( _isWhite ) ? PiecesTitle::WhiteBishop : PiecesTitle::BlackBishop;
+    m_IGraphic->create_piece( _title, _xy );
+}
+
+
+void Board::create_king( QPoint _xy, bool _isWhite )
+{
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new King( _isWhite, _xy.x(), _xy.y() ) );
+
+    QString _title = ( _isWhite ) ? PiecesTitle::WhiteKing : PiecesTitle::BlackKing;
+    m_IGraphic->create_piece( _title, _xy );
+}
+
+
+void Board::create_queen( QPoint _xy, bool _isWhite )
+{
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Queen( _isWhite, _xy.x(), _xy.y() ) );
+
+    QString _title = ( _isWhite ) ? PiecesTitle::WhiteQueen : PiecesTitle::BlackQueen;
+    m_IGraphic->create_piece( _title, _xy );
+}
+
+void Board::create_knight( QPoint _xy, bool _isWhite )
+{
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Knight( _isWhite, _xy.x(), _xy.y() ) );
+
+    QString _title = ( _isWhite ) ? PiecesTitle::WhiteKnight : PiecesTitle::BlackKnight;
+    m_IGraphic->create_piece( _title, _xy );
+}
+
+
+void Board::create_rook( QPoint _xy, bool _isWhite )
+{
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Rook( _isWhite, _xy.x(), _xy.y() ) );
+
+    QString _title = ( _isWhite ) ? PiecesTitle::WhiteRook : PiecesTitle::BlackRook;
+    m_IGraphic->create_piece( _title, _xy );
 }

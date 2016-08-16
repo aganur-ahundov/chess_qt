@@ -2,7 +2,7 @@
 #include <QVector>
 
 King::King( bool _isWhite, int _x, int _y)
-    :Piece( _isWhite, _x, _y)
+    :Piece( _isWhite, _x, _y), m_moved(false)
 {
 
 }

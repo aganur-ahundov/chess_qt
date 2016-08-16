@@ -1,10 +1,9 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-//////////////////////////////////////////////////
-#include <QWidget>
-//////////////////////////////////////////////////
-
+#include <QVector>
+#include <QSharedPointer>
+#include <QPoint>
 
 class Piece;
 class IGraphicsController;
@@ -16,7 +15,7 @@ class Board
 
 public:
 /*---------------------------------------------------------------*/
-    Board( IGraphicController* _g, bool _whitesGoing = 1 );
+    Board( IGraphicsController* _g, bool _whitesGoing = 1 );
     ~Board() = default;
 /*---------------------------------------------------------------*/
 
@@ -34,21 +33,34 @@ signals: //signals for controller ///argumants can be changed
     void piece_have_beaten( Piece* _p ) const;
 
 
-/*---------------------------------------------------------------*/
+
+public:
+    /*--------------------------------------------------------------------*/
+    void create_pawn( QPoint _xy, bool _isWhite );
+    void create_bishop( QPoint _xy, bool _isWhite );
+    void create_king( QPoint _xy, bool _isWhite );
+    void create_queen( QPoint _xy, bool _isWhite );
+    void create_knight( QPoint _xy, bool _isWhite );
+    void create_rook( QPoint _xy, bool _isWhite );
+    /*--------------------------------------------------------------------*/
+
+
 private:
     bool posIsValid( QPoint _pos ) const;
 
-/*---------------------------------------------------------------*/
 private:
+    /*--------------------------------------------------------------------*/
     QSharedPointer < Piece >** m_pieces;
     IGraphicsController*  m_IGraphic;
+    //QVector < QSharedPointer < Piece > > m_crushedPieces;
     bool m_whitesGoing;
+    /*--------------------------------------------------------------------*/
 
 };
 /***********************************************************************************/
 
 
-inline bool Board::posIsValid(QPoint _pos) const
+inline bool Board::posIsValid( QPoint _pos ) const
 {
     return _pos.x() >= 0 && _pos.x() < MAX_WIDTH
             && _pos.y() >= 0 && _pos.y() < MAX_HEIGHT;

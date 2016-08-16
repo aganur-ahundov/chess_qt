@@ -1,8 +1,8 @@
 #include "bishop.h"
 #include <QVector>
 
-Bishop::Bishop( QString const & _title, bool _isWhite, int _x, int _y )
-    :Piece( _title, _isWhite, _x, _y)
+Bishop::Bishop(bool _isWhite, int _x, int _y )
+    :Piece( _isWhite, _x, _y)
 {
 }
 

@@ -1,30 +1,28 @@
 #ifndef PIECES_TITLE_H
 #define PIECES_TITLE_H
 
-#include <QString>
-
 namespace PiecesTitle
 {
     /*---------------------------------------------------------*/
 
 
-    QString BlackKing = "Black King";
-    QString BlackBishop = "Black Bishop";
-    QString BlackKnight = "Black Knight";
-    QString BlackPawn = "Black Pawn";
-    QString BlackQueen = "Black Queen";
-    QString BlackRook = "Black Rook";
+    const char * const BlackKing = "Black King";
+    const char * const BlackBishop = "Black Bishop";
+    const char * const BlackKnight = "Black Knight";
+    const char * const BlackPawn = "Black Pawn";
+    const char * const BlackQueen = "Black Queen";
+    const char * const BlackRook = "Black Rook";
 
 
     /*---------------------------------------------------------*/
 
 
-    QString WhiteKing = "White King";
-    QString WhiteBishop = "White Bishop";
-    QString WhiteKnight = "White Knight";
-    QString WhitePawn = "White Pawn";
-    QString WhiteQueen = "White Queen";
-    QString WhiteRook = "White Rook";
+    const char * const WhiteKing = "White King";
+    const char * const WhiteBishop = "White Bishop";
+    const char * const WhiteKnight = "White Knight";
+    const char * const WhitePawn = "White Pawn";
+    const char * const WhiteQueen = "White Queen";
+    const char * const WhiteRook = "White Rook";
 
 
     /*---------------------------------------------------------*/

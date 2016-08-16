@@ -1,8 +1,8 @@
 #include "queen.h"
-#include "board.h"
+#include <QVector>
 
-Queen::Queen( QString const & _title, bool _isWhite, int _x, int _y )
-    :Piece( _title, _isWhite, _x, _y )
+Queen::Queen( bool _isWhite, int _x, int _y )
+    :Piece( _isWhite, _x, _y )
 {
 }
 

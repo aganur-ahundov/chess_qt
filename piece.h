@@ -16,7 +16,7 @@ class Piece
 /*-----------------------------------------------*/
 protected:
 
-    Piece( QString const & _title, bool _isWhite, int _x, int _y );
+    Piece( bool _isWhite, int _x, int _y );
 
     virtual void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const;
     void tryAddPosition( Board const & _b, QVector <QPoint> & _v, int _i, int _j ) const;
@@ -39,7 +39,7 @@ public:
     void setX( int _x );
     void setY( int _y );
     void setPos( QPoint _xy );
-    QString const & getTitle() const;
+    virtual QString const & getTitle() const = 0;
 
 /*-------------------------------------------------------------------*/
 
@@ -52,7 +52,6 @@ private:
     int  m_x;       //координаты на доске
     int  m_y;
     bool m_white;   //цвет фигуры
-    QString m_title; //title of piece
 
 };
 
@@ -74,12 +73,6 @@ inline int Piece::getY() const
 inline bool Piece::isWhite() const
 {
     return m_white;
-}
-
-
-inline QString const & Piece::getTitle() const
-{
-    return m_title;
 }
 
 

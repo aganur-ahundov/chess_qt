@@ -1,8 +1,7 @@
 #ifndef IGRAPHICSCONTROLLER_H
 #define IGRAPHICSCONTROLLER_H
 
-#include <QWidget>
-#include <QLabel>
+#include <QSharedPointer>
 #include <QMap>
 
 
@@ -22,7 +21,7 @@ public:
 
 ////////////////////////////////////////////////////////
     //void paintPauseMenu();
-    // and alike methods??
+    //and alike methods??
 /////////////////////////////////////////////////////////
 
 signals:
