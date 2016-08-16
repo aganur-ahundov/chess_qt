@@ -7,13 +7,13 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-   w.show();
+//    MainWindow w;
+//   w.show();
 
-//    IGraphicsController * g;
-//    Board b( g );
-//    //b.restart();
-//    //g->show();
+    IGraphicsController *g = new IGraphicsController();
+    Board b( g );
+    b.restart();
+    g->show();
 
     return a.exec();
 }

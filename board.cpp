@@ -56,7 +56,7 @@ void Board::create_pawn( QPoint _xy, bool _isWhite )
 void Board::clear()
 {
     for( int i = 0; i < Board::MAX_HEIGHT; i++ )
-        for ( int j = 0; j < Board::MAX_WIDTH; i++ )
+        for ( int j = 0; j < Board::MAX_WIDTH; j++ )
             m_pieces[i][j].clear();
 
       m_crushedPieces.clear();
@@ -68,31 +68,31 @@ void Board::restart()
     clear();
 
     create_rook( QPoint( 0, 0 ), false );
-    create_knight( QPoint( 0, 1 ), false );
-    create_bishop( QPoint( 0, 2 ), false );
-    create_queen( QPoint( 0, 3 ), false );
-    create_king( QPoint( 0, 4 ), false );
-    create_bishop( QPoint( 0, 5 ), false );
-    create_knight( QPoint( 0, 6 ), false );
-    create_rook( QPoint( 0, 7 ), false );
+    create_knight( QPoint( 1, 0 ), false );
+    create_bishop( QPoint( 2, 0 ), false );
+    create_queen( QPoint( 3, 0 ), false );
+    create_king( QPoint( 4, 0 ), false );
+    create_bishop( QPoint( 5, 0 ), false );
+    create_knight( QPoint( 6, 0 ), false );
+    create_rook( QPoint( 7, 0 ), false );
 
 
     for( int i = 0; i < Board::MAX_WIDTH; i++ )
-        create_pawn( QPoint( 1, i ), false );
+        create_pawn( QPoint( i, 1 ), false );
 
 
-    create_rook( QPoint( 7, 0 ), true );
-    create_knight( QPoint( 7, 1 ), true );
-    create_bishop( QPoint( 7, 2 ), true );
-    create_queen( QPoint( 7, 3 ), true );
-    create_king( QPoint( 7, 4 ), true );
-    create_bishop( QPoint( 7, 5 ), true );
-    create_knight( QPoint( 7, 6 ), true );
+    create_rook( QPoint( 0, 7 ), true );
+    create_knight( QPoint( 1, 7 ), true );
+    create_bishop( QPoint( 2, 7 ), true );
+    create_queen( QPoint( 3, 7 ), true );
+    create_king( QPoint( 4, 7 ), true );
+    create_bishop( QPoint( 5, 7 ), true );
+    create_knight( QPoint( 6, 7 ), true );
     create_rook( QPoint( 7, 7 ), true );
 
 
     for( int i = 0; i < Board::MAX_WIDTH; i++ )
-        create_pawn( QPoint( 6, i ), true );
+        create_pawn( QPoint( i, 6 ), true );
 }
 
 

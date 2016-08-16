@@ -6,6 +6,7 @@
 
 IGraphicsController::IGraphicsController()
 {
+    m_gameBoard = QSharedPointer < BoardWidget > ( new BoardWidget() );
     setBackground();\
     loadPiecesInfo();
 }
@@ -16,7 +17,7 @@ void IGraphicsController::setBackground()
     m_gameBoard->setFixedSize( 800, 800 );
 
     QPixmap background ( "../Chess/resources/board.png" );  //load pixmap
-    Q_ASSERT( background.isNull() );
+    Q_ASSERT( background.isNull() == false );
     background = background.scaled( 1415, 900 );   //for "good looking"
 
     QPalette p;

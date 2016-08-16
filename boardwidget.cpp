@@ -18,8 +18,8 @@ BoardWidget::BoardWidget( QWidget *parent )
 QPoint BoardWidget::toWidgetCoordinates(QPoint _xy) const
 {
     QPoint newPoint;
-    newPoint.setX( _xy.x() * size().width()/8 );  //+/- some pixels
-    newPoint.setY( _xy.y() * size().height()/8 );
+    newPoint.setX( _xy.x() *  ( size().width()/8 - 5 ) + 20  );  //+/- some pixels
+    newPoint.setY( _xy.y() *  ( size().height()/8 - 3) + 20  );
 
     return newPoint;
 }
@@ -28,7 +28,14 @@ QPoint BoardWidget::toWidgetCoordinates(QPoint _xy) const
 void BoardWidget::createPiece( const QString & _path, QPoint _xy )
 {
     QLabel* newPiece = new QLabel( this );
-    newPiece->setPixmap( QPixmap( _path ) );
+    QPixmap p( _path );
+
+    if ( p.isNull() )
+        throw std::runtime_error( "Pixmap wasn't loaded" );
+
+    p = p.scaled( 80, 80 );
+    newPiece->setPixmap( p );
+
     m_gameBoard[_xy.x()][_xy.y()].reset( newPiece );
     newPiece->move( toWidgetCoordinates( _xy ) );
 }
