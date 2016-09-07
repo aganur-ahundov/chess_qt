@@ -2,6 +2,7 @@
 #define IGRAPHICSCONTROLLER_H
 
 #include <QSharedPointer>
+#include <QObject>
 #include <QMap>
 
 
@@ -10,7 +11,9 @@ class BoardWidget;
 
 
 class IGraphicsController
+       // :public QObject
 {
+    Q_OBJECT
 public:
     explicit IGraphicsController();
     ~IGraphicsController() = default;

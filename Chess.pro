@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     rook.cpp \
     piece.cpp \
     igraphicscontroller.cpp \
-    boardwidget.cpp
+    boardwidget.cpp \
+    game.cpp \
+    igamecontroller.cpp
 
 HEADERS  += mainwindow.h \
     piece.h \
@@ -37,7 +39,9 @@ HEADERS  += mainwindow.h \
     rook.h \
     igraphicscontroller.h \
     pieces_title.h \
-    boardwidget.h
+    boardwidget.h \
+    game.h \
+    igamecontroller.h
 
 FORMS    += mainwindow.ui
 

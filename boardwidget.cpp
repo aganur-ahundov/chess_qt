@@ -15,7 +15,7 @@ BoardWidget::BoardWidget( QWidget *parent )
 }
 
 
-QPoint BoardWidget::toWidgetCoordinates(QPoint _xy) const
+QPoint BoardWidget::toWidgetCoordinates( QPoint _xy ) const
 {
     QPoint newPoint;
     newPoint.setX( _xy.x() *  ( size().width()/8 - 5 ) + 20  );  //+/- some pixels
@@ -60,9 +60,19 @@ void BoardWidget::delete_piece( QPoint _xy )
 }
 
 
+QPoint BoardWidget::toMatrixCoordinates( int _x, int _y ) const
+{
+    QPoint newPoint;
+
+    newPoint.setX( _x/80 );
+    newPoint.setY( _y/80 );
+
+    return newPoint;
+}
+
 void BoardWidget::mousePressEvent( QMouseEvent *_e )
 {
-    emit clicked_on_board( QPoint( _e->x(), _e->y() ) );
+    emit clicked_on_board( toMatrixCoordinates( _e->x(), _e->y() ) );
 }
 
 

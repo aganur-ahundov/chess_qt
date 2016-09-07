@@ -84,3 +84,9 @@ void IGraphicsController::show() const
 {
     m_gameBoard->show();
 }
+
+
+void IGraphicsController::clicked_point(QPoint _xy)
+{
+    emit clicked_on_board( _xy );
+}

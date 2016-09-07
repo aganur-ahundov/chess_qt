@@ -32,6 +32,7 @@ protected:
 
 private:
     QPoint toWidgetCoordinates( QPoint _xy ) const;
+    QPoint toMatrixCoordinates( int _x, int _y ) const;
 
 private:
     QSharedPointer < QLabel > ** m_gameBoard;

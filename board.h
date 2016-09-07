@@ -53,9 +53,9 @@ private:
 private:
     /*--------------------------------------------------------------------*/
     QSharedPointer < Piece >** m_pieces;
-    IGraphicsController*  m_IGraphic;
-    QVector < QSharedPointer < Piece > > m_crushedPieces;  //??????????
-    bool m_whitesGoing;
+    //IGraphicsController*  m_IGraphic;
+    //QVector < QSharedPointer < Piece > > m_crushedPieces;  //??????????
+    //bool m_whitesGoing;
     /*--------------------------------------------------------------------*/
 
 };
