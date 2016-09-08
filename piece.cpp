@@ -9,13 +9,13 @@ Piece::Piece( bool _isWhite, int _x, int _y )
 }
 
 
-void Piece::tryAddPosition(const Board &_b, QVector<QPoint> &_v, int i, int j) const
+void Piece::tryAddPosition(const Board &_b, QVector <QPoint> &_v, int i, int j) const
 {
     if ( _b.getCell( i, j ) == nullptr )
         _v.push_back( QPoint( i, j ) );
     else if( _b.getCell( i, j )->isWhite() != isWhite() )
     {
-        _v.push_back( QPoint ( i, j ) );
+        _v.push_back( QPoint( i, j ) );
         return;
     }
     else

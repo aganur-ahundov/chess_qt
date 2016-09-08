@@ -1,5 +1,6 @@
 #include "pawn.h"
 #include "board.h"
+#include <QVector>
 
 Pawn::Pawn(  bool _isWhite, int _x, int _y )
     :Piece( _isWhite, _x, _y )
@@ -7,7 +8,7 @@ Pawn::Pawn(  bool _isWhite, int _x, int _y )
 }
 
 
-void Pawn::check_position(const Board &_b, QVector<QPoint> &_v, int _directI, int _directJ) const
+void Pawn::check_position(const Board &_b, QVector <QPoint> &_v, int _directI, int _directJ) const
 {
     int i = getX() + _directI;
     int j = getY() + _directJ;
@@ -25,7 +26,7 @@ void Pawn::check_position(const Board &_b, QVector<QPoint> &_v, int _directI, in
 
 
 
-QVector < QPoint > Pawn::getSetOfPossibleMoves( const Board & _b ) const
+QVector < QPoint > Pawn::getVectorOfPossibleMoves( const Board & _b ) const
 {
     //start position fot first step
     const static int START_POSITION_FOR_BLACKS = 2;
@@ -36,7 +37,7 @@ QVector < QPoint > Pawn::getSetOfPossibleMoves( const Board & _b ) const
     //if this pawn is white
     if( isWhite() )
     {
-        if ( ( getY() + 1 ) == START_POSITION_FOR_WHITES ) //if it first step
+        if (  getY()  == START_POSITION_FOR_WHITES ) //if it first step
           {
               moves.push_back( QPoint( getX(), getY() - 1 ) );
               moves.push_back( QPoint( getX(), getY() - 2 ) );
@@ -48,7 +49,7 @@ QVector < QPoint > Pawn::getSetOfPossibleMoves( const Board & _b ) const
     else //if pawn is black
     {
 
-        if ( ( getY() + 1 ) == START_POSITION_FOR_BLACKS ) //if it first step
+        if (  getY()  == START_POSITION_FOR_BLACKS ) //if it first step
           {
               moves.push_back( QPoint( getX(), getY() + 1 ) );
               moves.push_back( QPoint( getX(), getY() + 2 ) );

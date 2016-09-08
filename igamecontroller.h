@@ -3,7 +3,8 @@
 
 #include <QSharedPointer>
 #include <QObject>
-#include <QSet>
+#include <QVector>
+#include <QPoint>
 
 //###########################
 class Board;
@@ -19,29 +20,45 @@ public:
     IGameController();
     ~IGameController();
 
+    void start() const;
+
 public slots:
     void boardHaveBeenClicked( QPoint _xy );
+    void boared_create_piece_slot( QString const & _title, QPoint _xy );
 
+signals:
+    void moved( QPoint _from, QPoint _to );
+    void boared_create_piece_signal( QString const & _title, QPoint _xy );
 
 private:
-    bool isThatColor( QPoint _xy ) const;
-    bool isItMove( QPoint _xy ) const;
-    void addPositionForMoving( QPoint _xy );
-    void addPiece( Piece const * _p );
-
+    bool isThatColor( QPoint _xy ) const;     //check is it correct piece
+    bool failClick( QPoint _xy ) const;       //clicked on enemy or free cell
+    bool isMoving ( QPoint _xy ) const;       //clicked for moving
+    void clear_data();
 
 private:
     QSharedPointer < Board > m_board;
     Piece* m_selectedPiece;
-    QSet < QPoint > m_posForMoving;
+    QVector < QPoint > m_posForMoving;
 };
 
 //##########################################//
 
-inline bool IGameController::isThatColor( QPoint _xy ) const
+inline void IGameController::clear_data()
 {
-    return m_board->getCell( _xy.x(), _xy.y() )->isWhite() == m_board->whitesAreMoving();
+    m_selectedPiece = nullptr;
+    m_posForMoving.clear();
 }
 
+inline bool IGameController::isMoving(QPoint _xy) const
+{
+    foreach (  QPoint x , m_posForMoving )
+    {
+        if( x == _xy )
+            return true;
+    }
+
+    return false;
+}
 
 #endif // IGAMECONTROLLER_H

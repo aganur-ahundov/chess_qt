@@ -7,7 +7,7 @@ Rook::Rook( bool _isWhite, int _x, int _y )
 }
 
 
-QVector < QPoint > Rook::getSetOfPossibleMoves(const Board &_b) const
+QVector < QPoint > Rook::getVectorOfPossibleMoves(const Board &_b) const
 {
     QVector < QPoint > moves;
 

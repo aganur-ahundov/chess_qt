@@ -10,13 +10,17 @@ class IGraphicsController;
 class IGameController;
 
 class Game
+        : public QObject
 {
+    Q_OBJECT
 public:
     Game();
     ~Game() = default;
 
     Game( Game const & ) = delete;
     Game & operator = ( Game const & ) = delete;
+
+    void display() const;
 
 
 private:

@@ -13,15 +13,13 @@
 
 
 
-Board::Board( IGraphicsController* _g, bool _whitesGoing )
-    :m_whitesGoing ( _whitesGoing ), m_IGraphic( _g )
+Board::Board( bool _whitesGoing )
+    :m_whitesGoing ( _whitesGoing )
 {
     m_pieces = new QSharedPointer < Piece >* [ Board::MAX_WIDTH ];
 
     for ( int i = 0; i < Board::MAX_WIDTH; i++ )
         m_pieces[i] = new QSharedPointer < Piece > [ Board::MAX_HEIGHT ];   //????????????
-
-    restart();
 }
 
 
@@ -45,14 +43,6 @@ void Board::move_figure(Piece *_p, QPoint _c)    //отправлять сооб
     }
 }
 
-void Board::create_pawn( QPoint _xy, bool _isWhite )
-{
-    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Pawn( _isWhite, _xy.x(), _xy.y() ) );
-
-    QString _title = ( _isWhite ) ? PiecesTitle::WhitePawn : PiecesTitle::BlackPawn;
-    m_IGraphic->create_piece( _title, _xy );
-}
-
 
 void Board::clear()
 {
@@ -60,7 +50,7 @@ void Board::clear()
         for ( int j = 0; j < Board::MAX_WIDTH; j++ )
             m_pieces[i][j].clear();
 
-      m_crushedPieces.clear();
+     // m_crushedPieces.clear();
 }
 
 
@@ -100,12 +90,21 @@ void Board::restart()
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 //                               methods for creation pieces                                     //
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+void Board::create_pawn( QPoint _xy, bool _isWhite )
+{
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Pawn( _isWhite, _xy.x(), _xy.y() ) );
+
+    QString _title = ( _isWhite ) ? PiecesTitle::WhitePawn : PiecesTitle::BlackPawn;
+    emit create_piece( _title, _xy );
+}
+
+
 void Board::create_bishop( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Bishop( _isWhite, _xy.x(), _xy.y() ) );
 
     QString _title = ( _isWhite ) ? PiecesTitle::WhiteBishop : PiecesTitle::BlackBishop;
-    m_IGraphic->create_piece( _title, _xy );
+    emit create_piece( _title, _xy );
 }
 
 
@@ -114,7 +113,7 @@ void Board::create_king( QPoint _xy, bool _isWhite )
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new King( _isWhite, _xy.x(), _xy.y() ) );
 
     QString _title = ( _isWhite ) ? PiecesTitle::WhiteKing : PiecesTitle::BlackKing;
-    m_IGraphic->create_piece( _title, _xy );
+    emit create_piece( _title, _xy );
 }
 
 
@@ -123,7 +122,7 @@ void Board::create_queen( QPoint _xy, bool _isWhite )
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Queen( _isWhite, _xy.x(), _xy.y() ) );
 
     QString _title = ( _isWhite ) ? PiecesTitle::WhiteQueen : PiecesTitle::BlackQueen;
-    m_IGraphic->create_piece( _title, _xy );
+    emit create_piece( _title, _xy );
 }
 
 void Board::create_knight( QPoint _xy, bool _isWhite )
@@ -131,7 +130,7 @@ void Board::create_knight( QPoint _xy, bool _isWhite )
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Knight( _isWhite, _xy.x(), _xy.y() ) );
 
     QString _title = ( _isWhite ) ? PiecesTitle::WhiteKnight : PiecesTitle::BlackKnight;
-    m_IGraphic->create_piece( _title, _xy );
+    emit create_piece( _title, _xy );
 }
 
 
@@ -140,7 +139,7 @@ void Board::create_rook( QPoint _xy, bool _isWhite )
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Rook( _isWhite, _xy.x(), _xy.y() ) );
 
     QString _title = ( _isWhite ) ? PiecesTitle::WhiteRook : PiecesTitle::BlackRook;
-    m_IGraphic->create_piece( _title, _xy );
+    emit create_piece( _title, _xy );
 }
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/

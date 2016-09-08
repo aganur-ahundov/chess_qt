@@ -10,7 +10,7 @@ public:
     Queen( bool _isWhite, int _x, int _y );
     ~Queen() = default;
 
-    QVector < QPoint > getSetOfPossibleMoves(const Board &_b) const override;
+    QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
     QString const & getTitle() const;
 
 };

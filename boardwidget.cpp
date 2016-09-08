@@ -46,10 +46,12 @@ void BoardWidget::move_piece( QPoint _from, QPoint _to )
     if( !m_gameBoard[ _to.x() ][ _to.y() ].isNull() ) ///?????
         throw std::runtime_error( "Cell isn't free" );
 
-    m_gameBoard[ _to.x() ][ _to.y() ].reset( m_gameBoard[ _from.x() ][ _from.y() ].data() );
-    m_gameBoard[ _from.x() ][ _from.y() ].clear();
 
-    m_gameBoard[ _to.x() ][ _to.y() ]->move( toWidgetCoordinates( _to ) );
+    m_gameBoard[ _from.x() ][ _from.y() ]->move( toWidgetCoordinates( _to ) );
+
+    m_gameBoard[ _to.x() ][ _to.y() ].reset( m_gameBoard[ _from.x() ][ _from.y() ].data() );
+   // m_gameBoard[ _from.x() ][ _from.y() ].clear();
+
 }
 
 
@@ -64,8 +66,8 @@ QPoint BoardWidget::toMatrixCoordinates( int _x, int _y ) const
 {
     QPoint newPoint;
 
-    newPoint.setX( _x/80 );
-    newPoint.setY( _y/80 );
+    newPoint.setX( _x/( size().width()/8 + 5 ) );
+    newPoint.setY( _y/( size().width()/8 + 5 ) );
 
     return newPoint;
 }

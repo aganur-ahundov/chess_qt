@@ -7,7 +7,7 @@ Queen::Queen( bool _isWhite, int _x, int _y )
 }
 
 
-QVector < QPoint > Queen::getSetOfPossibleMoves( const Board & _b ) const
+QVector < QPoint > Queen::getVectorOfPossibleMoves( const Board & _b ) const
 {
     QVector < QPoint > moves;
 

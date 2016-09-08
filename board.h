@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QSharedPointer>
 #include <QPoint>
+#include <QObject>
 
 class Piece;
 class IGraphicsController;
@@ -11,7 +12,9 @@ class IGraphicsController;
 
 
 class Board
+        : public QObject
 {
+    Q_OBJECT
 
 public:
 
@@ -19,7 +22,7 @@ public:
     const static int MAX_HEIGHT = 8;
 
 /*---------------------------------------------------------------*/
-    Board( IGraphicsController* _g, bool _whitesGoing = 1 );
+    Board( bool _whitesGoing = true );
     ~Board() = default;
 /*---------------------------------------------------------------*/
 
@@ -29,14 +32,11 @@ public:
     void restart(); //all pieces on default positions
     void clear();   //clear all data
 
-    QVector < QPoint > & getVectorOfPossiblePieceMoves( const Piece* _p ) const;
-
 signals:
     //signals for controller ///argumants can be changed
     void piece_have_moved( Piece* _p, QPoint _from, QPoint _to ) const;
     void piece_have_beaten( Piece* _p ) const;
-
-
+    void create_piece( QString const & _title, QPoint _pos );
 
 public:
     void create_pawn( QPoint _xy, bool _isWhite );

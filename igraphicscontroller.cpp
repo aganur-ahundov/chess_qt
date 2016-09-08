@@ -9,6 +9,10 @@ IGraphicsController::IGraphicsController()
     m_gameBoard = QSharedPointer < BoardWidget > ( new BoardWidget() );
     setBackground();\
     loadPiecesInfo();
+
+
+    connect( m_gameBoard.data(), SIGNAL(clicked_on_board(QPoint))
+             , SLOT(clicked_point(QPoint)) );
 }
 
 

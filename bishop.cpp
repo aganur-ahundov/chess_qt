@@ -7,7 +7,7 @@ Bishop::Bishop(bool _isWhite, int _x, int _y )
 }
 
 
-QVector < QPoint > Bishop::getSetOfPossibleMoves(const Board &_b) const
+QVector < QPoint > Bishop::getVectorOfPossibleMoves(const Board &_b) const
 {
     QVector < QPoint > moves;
 
