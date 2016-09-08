@@ -22,7 +22,7 @@ void King::check_position(const Board &_b, QVector < QPoint > & _v, int _dispI, 
 
 
 
-QVector< QPoint > King::getVectorOfPossibleMoves(const Board &_b)  const
+QVector< QPoint > King::getSetOfPossibleMoves(const Board &_b)  const
 {
     //не реализована ракировка
 

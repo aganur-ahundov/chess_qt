@@ -3,7 +3,6 @@
 
 #include <QSharedPointer>
 #include <QObject>
-#include <QSet>
 
 //###########################
 class Board;
@@ -24,10 +23,10 @@ public slots:
 
 
 private:
-    bool isThatColor( QPoint _xy ) const;
-    bool isItMove( QPoint _xy ) const;
+    bool isThatColor( QPoint _xy ) const;     //check is it our
+    bool failClick( QPoint _xy ) const;       //clicked on enemy or free cell
     void addPositionForMoving( QPoint _xy );
-    void addPiece( Piece const * _p );
+    void choose_piece( Piece const * _p );
 
 
 private:

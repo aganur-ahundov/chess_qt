@@ -30,6 +30,10 @@ void IGameController::boardHaveBeenClicked( QPoint _xy )
         m_selectedPiece = nullptr;
         m_posForMoving.clear();
     }
+    else if ( isThatColor( _xy ) )
+    {
+        m_selectedPiece = m_board->getCell( _xy.x(), _xy.y() );
+    }
 
 
 }

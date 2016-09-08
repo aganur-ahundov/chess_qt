@@ -21,6 +21,7 @@ Board::Board( IGraphicsController* _g, bool _whitesGoing )
     for ( int i = 0; i < Board::MAX_WIDTH; i++ )
         m_pieces[i] = new QSharedPointer < Piece > [ Board::MAX_HEIGHT ];   //????????????
 
+    restart();
 }
 
 

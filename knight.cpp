@@ -20,7 +20,7 @@ void Knight::check_position( Board const & _b, QVector <QPoint> & _v, int _direc
 }
 
 
-QVector < QPoint > Knight::getVectorOfPossibleMoves(const Board &_b) const
+QVector < QPoint > Knight::getSetOfPossibleMoves(const Board &_b) const
 {
     QVector < QPoint > moves;
 

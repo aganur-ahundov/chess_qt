@@ -19,7 +19,7 @@ public:
     const static int MAX_HEIGHT = 8;
 
 /*---------------------------------------------------------------*/
-    Board( IGraphicsController* _g, bool _whitesGoing = 1 );
+    Board( bool _whitesGoing = true );
     ~Board() = default;
 /*---------------------------------------------------------------*/
 

@@ -25,7 +25,7 @@ void Pawn::check_position(const Board &_b, QVector<QPoint> &_v, int _directI, in
 
 
 
-QVector < QPoint > Pawn::getVectorOfPossibleMoves( const Board & _b ) const
+QVector < QPoint > Pawn::getSetOfPossibleMoves( const Board & _b ) const
 {
     //start position fot first step
     const static int START_POSITION_FOR_BLACKS = 2;
