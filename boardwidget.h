@@ -20,6 +20,11 @@ public:
     void move_piece( QPoint _from, QPoint _to );
     void delete_piece( QPoint _xy );
 
+    void setVectorOfPositions( QVector < QPoint > const & _v );
+    void clearVectorOfPositions();
+    void setPositionOfCurrentPiece( QPoint _xy );
+    void clearPositionOfCurentPiece();
+
 signals:
     void clicked_on_board( QPoint _xy ) const; // signal send window coordinates
 
@@ -28,7 +33,7 @@ public slots:
 
 protected:
     void mousePressEvent( QMouseEvent* _e );
-   // void paintEvent( QPaintEvent* _e );
+    void paintEvent( QPaintEvent* _e );
 
 private:
     QPoint toWidgetCoordinates( QPoint _xy ) const;
@@ -36,6 +41,30 @@ private:
 
 private:
     QSharedPointer < QLabel > ** m_gameBoard;
+
+    QVector < QPoint > m_framesForNextStep;
+    QPoint m_frameOfCurrentPiece;
 };
+
+inline void BoardWidget::setVectorOfPositions( const QVector < QPoint > &_v )
+{
+    m_framesForNextStep = _v;
+}
+
+inline void BoardWidget::clearVectorOfPositions()
+{
+    m_framesForNextStep.clear();
+}
+
+inline void BoardWidget::setPositionOfCurrentPiece(QPoint _xy)
+{
+    m_frameOfCurrentPiece = _xy;
+}
+
+inline void BoardWidget::clearPositionOfCurentPiece()
+{
+    m_frameOfCurrentPiece.rx() = -1;
+    m_frameOfCurrentPiece.ry() = -1;
+}
 
 #endif // BOARDWIDGET_H

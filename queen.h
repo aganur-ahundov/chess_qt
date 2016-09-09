@@ -11,12 +11,12 @@ public:
     ~Queen() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
-    QString const & getTitle() const;
+    QString getTitle() const;
 
 };
 
 
-inline QString const & Queen::getTitle() const
+inline QString Queen::getTitle() const
 {
     return ( isWhite() ) ? PiecesTitle::WhiteQueen : PiecesTitle::BlackQueen;
 }

@@ -29,6 +29,7 @@ public slots:
 signals:
     void moved( QPoint _from, QPoint _to );
     void boared_create_piece_signal( QString const & _title, QPoint _xy );
+    void have_some_cells_for_moving( QVector < QPoint > const & _v );
 
 private:
     bool isThatColor( QPoint _xy ) const;     //check is it correct piece

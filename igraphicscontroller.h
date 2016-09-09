@@ -31,7 +31,8 @@ public slots:
     void clicked_point( QPoint _xy );
     void move_piece( QPoint _from, QPoint _to );  //using BoardWidget methods
     void delete_piece( QPoint _xy );
-    void create_piece( QString const & _title, QPoint _xy ) const; //??????????????/
+    void create_piece( QString const & _title, QPoint _xy ) const;
+    void paint_cells_for_moving( QVector < QPoint > const & _v );
 
 private:
     void setBackground();

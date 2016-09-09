@@ -40,6 +40,9 @@ void IGameController::boardHaveBeenClicked( QPoint _xy )   //координат�
     {
         m_selectedPiece = m_board->getCell( _xy.x(), _xy.y() );
         m_posForMoving = m_selectedPiece->getVectorOfPossibleMoves( *m_board );
+
+        if(! m_posForMoving.empty() )
+            emit have_some_cells_for_moving( m_posForMoving );
     }
     else if( isMoving( _xy ) )
     {
@@ -47,10 +50,11 @@ void IGameController::boardHaveBeenClicked( QPoint _xy )   //координат�
 
         m_board->move_figure( m_selectedPiece, _xy );
         clear_data();
+
+        m_board->switchTurn();
     }
     else
         clear_data();
-
 
 }
 

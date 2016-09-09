@@ -12,7 +12,7 @@ public:
     ~Rook() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
-    QString const & getTitle() const override;
+    QString getTitle() const override;
     bool isMoved() const;
 
 private:
@@ -20,7 +20,7 @@ private:
 
 };
 
-inline QString const & Rook::getTitle() const
+inline QString Rook::getTitle() const
 {
     return ( isWhite() ) ? PiecesTitle::WhiteRook : PiecesTitle::BlackRook;
 }

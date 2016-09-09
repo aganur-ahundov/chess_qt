@@ -12,11 +12,11 @@ public:
     ~Bishop() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
-    QString const & getTitle() const override;
+    QString getTitle() const override;
 
 };
 
-inline QString const & Bishop::getTitle() const
+inline QString Bishop::getTitle() const
 {
     return ( isWhite() ) ? PiecesTitle::WhiteBishop : PiecesTitle::BlackBishop;
 }

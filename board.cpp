@@ -23,16 +23,16 @@ Board::Board( bool _whitesGoing )
 }
 
 
-void Board::move_figure(Piece *_p, QPoint _c)    //отправлять сообщения о побитых фигурах
+void Board::move_figure( Piece *_p, QPoint _c )    //отправлять сообщения о побитых фигурах
 {
     if ( !posIsValid( _c ) )
         throw std::runtime_error( "Invalid position" );
 
-    if( m_pieces[_c.x()][_c.y()].isNull() == false )
+    if( m_pieces[ _c.x() ][ _c.y() ].isNull() == false )
      {
-        if ( m_pieces[_c.x()][_c.y()]->isWhite() != _p->isWhite() )
+        if ( m_pieces[ _c.x() ][ _c.y() ]->isWhite() == _p->isWhite() )
         {
-            return; //The reaction on "fail" position. may be error or return false???
+            return;
         }
     }
     else
@@ -93,53 +93,41 @@ void Board::restart()
 void Board::create_pawn( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Pawn( _isWhite, _xy.x(), _xy.y() ) );
-
-    QString _title = ( _isWhite ) ? PiecesTitle::WhitePawn : PiecesTitle::BlackPawn;
-    emit create_piece( _title, _xy );
+    emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_bishop( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Bishop( _isWhite, _xy.x(), _xy.y() ) );
-
-    QString _title = ( _isWhite ) ? PiecesTitle::WhiteBishop : PiecesTitle::BlackBishop;
-    emit create_piece( _title, _xy );
+    emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_king( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new King( _isWhite, _xy.x(), _xy.y() ) );
-
-    QString _title = ( _isWhite ) ? PiecesTitle::WhiteKing : PiecesTitle::BlackKing;
-    emit create_piece( _title, _xy );
+    emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_queen( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Queen( _isWhite, _xy.x(), _xy.y() ) );
-
-    QString _title = ( _isWhite ) ? PiecesTitle::WhiteQueen : PiecesTitle::BlackQueen;
-    emit create_piece( _title, _xy );
+    emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 void Board::create_knight( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Knight( _isWhite, _xy.x(), _xy.y() ) );
-
-    QString _title = ( _isWhite ) ? PiecesTitle::WhiteKnight : PiecesTitle::BlackKnight;
-    emit create_piece( _title, _xy );
+    emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_rook( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Rook( _isWhite, _xy.x(), _xy.y() ) );
-
-    QString _title = ( _isWhite ) ? PiecesTitle::WhiteRook : PiecesTitle::BlackRook;
-    emit create_piece( _title, _xy );
+    emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/

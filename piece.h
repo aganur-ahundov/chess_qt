@@ -39,7 +39,7 @@ public:
     void setX( int _x );
     void setY( int _y );
     void setPos( QPoint _xy );
-    virtual QString const & getTitle() const = 0;
+    virtual QString getTitle() const = 0;
 
 /*-------------------------------------------------------------------*/
 

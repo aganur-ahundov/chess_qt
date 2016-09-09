@@ -27,6 +27,7 @@ public:
 /*---------------------------------------------------------------*/
 
     bool whitesAreMoving() const;
+    void switchTurn();             //after moving time for changing side
     void move_figure( Piece* _p, QPoint _c );
     Piece* getCell( int _i, int j) const;
     void restart(); //all pieces on default positions
@@ -78,6 +79,12 @@ inline Piece* Board::getCell( int _i, int _j ) const
         throw std::runtime_error( "Invalidate position!" );
 
     return m_pieces[_i][_j].data();
+}
+
+
+inline void Board::switchTurn()
+{
+    m_whitesGoing = !m_whitesGoing;
 }
 
 #endif // BOARD_H

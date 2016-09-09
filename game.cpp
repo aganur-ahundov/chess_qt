@@ -3,6 +3,8 @@
 #include "igraphicscontroller.h"
 
 
+Game * Game::m_Instance;
+Game::~Game() = default;
 
 Game::Game()
 {
@@ -18,7 +20,31 @@ Game::Game()
     connect( m_gameController.data(), SIGNAL( boared_create_piece_signal( QString,QPoint))
              , m_graphController.data(), SLOT( create_piece( QString,QPoint )) );
 
+    connect( m_gameController.data(), SIGNAL(have_some_cells_for_moving(QVector<QPoint>))
+             , m_graphController.data(), SLOT(paint_cells_for_moving(QVector<QPoint>) )
+                );
+
     m_gameController->start();
+}
+
+
+Game * Game::getInstance()
+{
+
+    if ( !m_Instance )
+    {
+        m_Instance = new Game();
+
+
+        struct Destroyer
+        {
+            ~Destroyer() { delete m_Instance; }
+        };
+
+        static Destroyer s_Destroyer;
+    }
+
+    return m_Instance;
 }
 
 

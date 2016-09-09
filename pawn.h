@@ -14,11 +14,11 @@ public:
 
 private:
     void check_position( Board const & _b, QVector < QPoint > & _v, int _directI, int _directJ ) const override;
-    QString const & getTitle() const override;
+    QString getTitle() const override;
 };
 
 
-inline QString const & Pawn::getTitle() const
+inline QString Pawn::getTitle() const
 {
     return ( isWhite() ) ? PiecesTitle::WhitePawn : PiecesTitle::BlackPawn;
 }

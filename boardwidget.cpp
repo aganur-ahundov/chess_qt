@@ -1,7 +1,7 @@
 #include "boardwidget.h"
 #include <QSharedPointer>
 #include <QMouseEvent>
-//#include <QPaintEvent>
+#include <QPainter>
 
 BoardWidget::BoardWidget( QWidget *parent )
     : QWidget( parent )
@@ -46,19 +46,20 @@ void BoardWidget::move_piece( QPoint _from, QPoint _to )
     if( !m_gameBoard[ _to.x() ][ _to.y() ].isNull() ) ///?????
         throw std::runtime_error( "Cell isn't free" );
 
-
-    m_gameBoard[ _from.x() ][ _from.y() ]->move( toWidgetCoordinates( _to ) );
-
     m_gameBoard[ _to.x() ][ _to.y() ].reset( m_gameBoard[ _from.x() ][ _from.y() ].data() );
-   // m_gameBoard[ _from.x() ][ _from.y() ].clear();
+    m_gameBoard[ _to.x() ][ _to.y() ]->move( toWidgetCoordinates( _to ) );
+    m_gameBoard[ _from.x() ][ _from.y() ].reset();          //delete pixmap from board
 
+    Q_ASSERT ( m_gameBoard[ _to.x() ][ _to.y() ].isNull() == false );
+    Q_ASSERT ( m_gameBoard[ _from.x() ][ _from.y() ].isNull() );
+
+   // m_gameBoard[ _to.x() ][ _to.y() ]->show();     //problems. error from windows
 }
 
 
 void BoardWidget::delete_piece( QPoint _xy )
 {
-    m_gameBoard[ _xy.x() ][ _xy.y() ].clear();  //будем удалять лейблы или хранить их до конца игры.
-                                                //дабы при рестарте не загружать пиксмапы по новой????
+    m_gameBoard[ _xy.x() ][ _xy.y() ].clear();
 }
 
 
@@ -77,5 +78,42 @@ void BoardWidget::mousePressEvent( QMouseEvent *_e )
     emit clicked_on_board( toMatrixCoordinates( _e->x(), _e->y() ) );
 }
 
+
+void BoardWidget::paintEvent( QPaintEvent *_e )
+{
+    QPainter p;
+
+    p.begin( this );
+    p.setRenderHint( QPainter::Antialiasing, true );
+
+
+    if( m_framesForNextStep.empty() == false )
+    {
+        p.setPen( QPen ( Qt::blue, 5 ) );
+        p.setBrush( QBrush( Qt::NoBrush ) );
+
+        short size = m_framesForNextStep.size();
+        for( short i = 0; i < size; i++ )
+        {
+            QPoint pos = m_framesForNextStep[i];
+            p.drawRect( ( pos.x() * 95 ) + 20, ( pos.y() * 95 ) + 25, 95, 95 );    //will be with out numbers after refactoring
+        }
+
+        m_framesForNextStep.clear();
+    }
+
+//    if ( m_frameOfCurrentPiece.x() != -1 )
+//    {
+//        p.setPen( QPen ( Qt::black, 5 ) );
+//        p.setBrush( QBrush( Qt::NoBrush ) );
+//        p.drawRect( m_frameOfCurrentPiece.x() * 95 + 20
+//                    ,m_frameOfCurrentPiece.y() * 95 + 25
+//                    , 95
+//                    , 95
+//                    );
+//    }
+
+    p.end();
+}
 
 

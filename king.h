@@ -12,7 +12,7 @@ public:
     ~King() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves( const Board &_b ) const override;
-    QString const & getTitle() const override;
+    QString getTitle() const override;
     bool isMoved() const;
 
 protected:
@@ -22,7 +22,7 @@ private:
    bool m_moved;
 };
 
-inline QString const & King::getTitle() const
+inline QString King::getTitle() const
 {
     return ( isWhite() ) ? PiecesTitle::WhiteKing : PiecesTitle::BlackKing;
 }

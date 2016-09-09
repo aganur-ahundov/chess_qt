@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
 //    b.restart();
 //    g->show();
 
-    Game g;
-    g.display();
+    Game* g = Game::getInstance();
+    g->display();
 
     return a.exec();
 }

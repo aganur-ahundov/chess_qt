@@ -93,4 +93,10 @@ void IGraphicsController::show() const
 void IGraphicsController::clicked_point(QPoint _xy)
 {
     emit clicked_on_board( _xy );
+    m_gameBoard->repaint();
+}
+
+void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v )
+{
+    m_gameBoard->setVectorOfPositions( _v );
 }

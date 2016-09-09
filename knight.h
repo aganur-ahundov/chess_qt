@@ -12,14 +12,14 @@ public:
     ~Knight() = default;
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
-    QString const & getTitle() const override;
+    QString getTitle() const override;
 
 protected:
     void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const override;
 };
 
 
-inline QString const & Knight::getTitle() const
+inline QString Knight::getTitle() const
 {
     return ( isWhite() ) ? PiecesTitle::WhiteKnight : PiecesTitle::BlackKnight;
 }

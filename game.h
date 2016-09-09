@@ -13,20 +13,27 @@ class Game
         : public QObject
 {
     Q_OBJECT
-public:
-    Game();
-    ~Game() = default;
 
+private:
+    static Game * m_Instance;
+
+protected:
+    Game();
+    ~Game();
+
+public:
     Game( Game const & ) = delete;
     Game & operator = ( Game const & ) = delete;
 
+    static Game * getInstance();
     void display() const;
-
 
 private:
     QSharedPointer < IGraphicsController > m_graphController;
     QSharedPointer < IGameController >     m_gameController;
 
 };
+
+
 
 #endif // GAME_H
