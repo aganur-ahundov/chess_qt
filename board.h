@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #include <QVector>
-#include <QSharedPointer>
+#include <QPointer>
 #include <QPoint>
 #include <QObject>
 
@@ -52,8 +52,7 @@ private:
     bool posIsValid( QPoint _pos ) const;
 
 private:
-    QSharedPointer < Piece >** m_pieces;
-    //QVector < QSharedPointer < Piece > > m_crushedPieces;  //??????????
+    QPointer < Piece >** m_pieces;
     bool m_whitesGoing;
 
 };
@@ -73,13 +72,13 @@ inline bool Board::posIsValid( QPoint _pos ) const
 }
 
 
-inline Piece* Board::getCell( int _i, int _j ) const
-{
-    if( !posIsValid( QPoint(_i, _j) ) )
-        throw std::runtime_error( "Invalidate position!" );
+//inline Piece* Board::getCell( int _i, int _j ) const
+//{
+//    if( !posIsValid( QPoint(_i, _j) ) )
+//        throw std::runtime_error( "Invalidate position!" );
 
-    return m_pieces[_i][_j].data();
-}
+//    return m_pieces[_i][_j].data();
+//}
 
 
 inline void Board::switchTurn()

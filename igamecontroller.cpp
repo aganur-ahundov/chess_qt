@@ -42,7 +42,8 @@ void IGameController::boardHaveBeenClicked( QPoint _xy )
         m_posForMoving = m_selectedPiece->getVectorOfPossibleMoves( *m_board );
 
         if(! m_posForMoving.empty() )
-            emit have_some_cells_for_moving( m_posForMoving, QPoint ( m_selectedPiece->getX(), m_selectedPiece->getY() ) );
+            emit have_some_cells_for_moving( m_posForMoving
+                                             , QPoint ( m_selectedPiece->getX(), m_selectedPiece->getY() ) );
     }
     else if( isMoving( _xy ) )
     {

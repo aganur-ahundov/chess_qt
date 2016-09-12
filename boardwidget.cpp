@@ -74,6 +74,7 @@ QPoint BoardWidget::toMatrixCoordinates( int _x, int _y ) const
 
 void BoardWidget::mousePressEvent( QMouseEvent *_e )
 {
+     m_framesForNextStep.clear();
     emit clicked_on_board( toMatrixCoordinates( _e->x(), _e->y() ) );
 }
 
@@ -99,8 +100,6 @@ void BoardWidget::paintEvent( QPaintEvent *_e )
                         , ( pos.y() * CELL_SIZE ) + 25
                         , CELL_SIZE, CELL_SIZE );    //will be with out numbers after refactoring
         }
-
-        m_framesForNextStep.clear();
     }
 
     if ( pieceSelected() )
