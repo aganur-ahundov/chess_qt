@@ -61,6 +61,7 @@ QPoint IGraphicsController::toBoardCoordinates( QPoint _xy ) const
 void IGraphicsController::move_piece(QPoint _from, QPoint _to)
 {
     m_gameBoard->move_piece( _from, _to );
+    m_gameBoard->clearPositionOfCurentPiece();
 }
 
 
@@ -94,9 +95,12 @@ void IGraphicsController::clicked_point(QPoint _xy)
 {
     emit clicked_on_board( _xy );
     m_gameBoard->repaint();
+    m_gameBoard->clearPositionOfCurentPiece();
 }
 
-void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v )
+void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v, QPoint _xy )
 {
     m_gameBoard->setVectorOfPositions( _v );
+    m_gameBoard->setPositionOfCurrentPiece( _xy );
 }
+

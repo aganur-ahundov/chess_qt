@@ -20,8 +20,8 @@ Game::Game()
     connect( m_gameController.data(), SIGNAL( boared_create_piece_signal( QString,QPoint))
              , m_graphController.data(), SLOT( create_piece( QString,QPoint )) );
 
-    connect( m_gameController.data(), SIGNAL(have_some_cells_for_moving(QVector<QPoint>))
-             , m_graphController.data(), SLOT(paint_cells_for_moving(QVector<QPoint>) )
+    connect( m_gameController.data(), SIGNAL(have_some_cells_for_moving(QVector<QPoint>, QPoint))
+             , m_graphController.data(), SLOT(paint_cells_for_moving(QVector<QPoint>, QPoint) )
                 );
 
     m_gameController->start();

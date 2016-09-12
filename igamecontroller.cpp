@@ -34,7 +34,7 @@ bool IGameController::failClick( QPoint _xy ) const
 
 
 
-void IGameController::boardHaveBeenClicked( QPoint _xy )   //координаты не корректные. фэйл клик не работает. выбивает ошибку
+void IGameController::boardHaveBeenClicked( QPoint _xy )
 {
     if ( isThatColor( _xy ) )
     {
@@ -42,7 +42,7 @@ void IGameController::boardHaveBeenClicked( QPoint _xy )   //координат�
         m_posForMoving = m_selectedPiece->getVectorOfPossibleMoves( *m_board );
 
         if(! m_posForMoving.empty() )
-            emit have_some_cells_for_moving( m_posForMoving );
+            emit have_some_cells_for_moving( m_posForMoving, QPoint ( m_selectedPiece->getX(), m_selectedPiece->getY() ) );
     }
     else if( isMoving( _xy ) )
     {

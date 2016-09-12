@@ -28,9 +28,6 @@ public:
 signals:
     void clicked_on_board( QPoint _xy ) const; // signal send window coordinates
 
-public slots:
-
-
 protected:
     void mousePressEvent( QMouseEvent* _e );
     void paintEvent( QPaintEvent* _e );
@@ -40,10 +37,12 @@ private:
     QPoint toMatrixCoordinates( int _x, int _y ) const;
 
 private:
-    QSharedPointer < QLabel > ** m_gameBoard;
+    QPointer < QLabel > ** m_gameBoard;
 
     QVector < QPoint > m_framesForNextStep;
     QPoint m_frameOfCurrentPiece;
+
+    static const int CELL_SIZE = 95;
 };
 
 inline void BoardWidget::setVectorOfPositions( const QVector < QPoint > &_v )

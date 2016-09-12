@@ -32,7 +32,7 @@ public slots:
     void move_piece( QPoint _from, QPoint _to );  //using BoardWidget methods
     void delete_piece( QPoint _xy );
     void create_piece( QString const & _title, QPoint _xy ) const;
-    void paint_cells_for_moving( QVector < QPoint > const & _v );
+    void paint_cells_for_moving( QVector < QPoint > const & _v, QPoint );
 
 private:
     void setBackground();
