@@ -35,6 +35,7 @@ protected:
 private:
     QPoint toWidgetCoordinates( QPoint _xy ) const;
     QPoint toMatrixCoordinates( int _x, int _y ) const;
+    bool   pieceSelected() const;
 
 private:
     QPointer < QLabel > ** m_gameBoard;
@@ -64,6 +65,11 @@ inline void BoardWidget::clearPositionOfCurentPiece()
 {
     m_frameOfCurrentPiece.rx() = -1;
     m_frameOfCurrentPiece.ry() = -1;
+}
+
+inline bool BoardWidget::pieceSelected() const
+{
+    return m_frameOfCurrentPiece.x() != -1;
 }
 
 #endif // BOARDWIDGET_H

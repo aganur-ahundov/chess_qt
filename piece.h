@@ -19,7 +19,7 @@ protected:
     Piece( bool _isWhite, int _x, int _y );
 
     virtual void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const;
-    void tryAddPosition( Board const & _b, QVector <QPoint> & _v, int _i, int _j ) const;
+    bool tryAddPosition( Board const & _b, QVector <QPoint> & _v, int _i, int _j ) const;
     bool posIsValid( QPoint _p ) const;
 
 

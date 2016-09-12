@@ -103,7 +103,7 @@ void BoardWidget::paintEvent( QPaintEvent *_e )
         m_framesForNextStep.clear();
     }
 
-    if ( m_frameOfCurrentPiece.x() != -1 )
+    if ( pieceSelected() )
     {
         p.setPen( QPen ( Qt::black, 5 ) );
         p.setBrush( QBrush( Qt::NoBrush ) );
