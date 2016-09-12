@@ -39,8 +39,13 @@ QVector < QPoint > Pawn::getVectorOfPossibleMoves( const Board & _b ) const
     {
         if (  getY()  == START_POSITION_FOR_WHITES ) //if it first step
           {
-              moves.push_back( QPoint( getX(), getY() - 1 ) );
-              moves.push_back( QPoint( getX(), getY() - 2 ) );
+            if( _b.getCell( getX(), getY() - 1 ) == nullptr )
+            {
+                moves.push_back( QPoint( getX(), getY() - 1 ) );
+
+                if( _b.getCell( getX(), getY() - 2 ) == nullptr )
+                    moves.push_back( QPoint( getX(), getY() - 2 ) );
+            }
           }
 
         check_position( _b, moves, -1, -1 ); //check cell. if it enemy then we can bit
@@ -51,8 +56,13 @@ QVector < QPoint > Pawn::getVectorOfPossibleMoves( const Board & _b ) const
 
         if (  getY()  == START_POSITION_FOR_BLACKS ) //if it first step
           {
-              moves.push_back( QPoint( getX(), getY() + 1 ) );
-              moves.push_back( QPoint( getX(), getY() + 2 ) );
+            if( _b.getCell( getX(), getY() + 1 ) == nullptr )
+            {
+                moves.push_back( QPoint( getX(), getY() + 1 ) );
+
+                if( _b.getCell( getX(), getY() + 2 ) == nullptr )
+                    moves.push_back( QPoint( getX(), getY() + 2 ) );
+            }
           }
 
         check_position( _b, moves, -1, 1 ); //check cell. if it enemy then we can bit
