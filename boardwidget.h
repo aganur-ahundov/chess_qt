@@ -38,7 +38,7 @@ private:
     bool   pieceSelected() const;
 
 private:
-    QPointer < QLabel > ** m_gameBoard;
+    QScopedPointer < QLabel > ** m_gameBoard;
 
     QVector < QPoint > m_framesForNextStep;
     QPoint m_frameOfCurrentPiece;

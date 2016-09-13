@@ -24,6 +24,9 @@ Game::Game()
              , m_graphController.data(), SLOT(paint_cells_for_moving(QVector<QPoint>, QPoint) )
                 );
 
+    connect( m_gameController.data(), SIGNAL( moved( QPoint,QPoint ) )
+             , m_graphController.data(), SLOT( delete_piece( QPoint ) )  );
+
     m_gameController->start();
 }
 

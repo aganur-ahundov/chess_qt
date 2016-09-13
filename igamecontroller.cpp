@@ -19,19 +19,32 @@ IGameController::IGameController()
 }
 
 
-bool IGameController::failClick( QPoint _xy ) const
-{
-    Piece* p = m_board->getCell( _xy.x(), _xy.y() );
+////bool IGameController::failClick( QPoint _xy ) const
+////{
+////    Piece* p = m_board->getCell( _xy.x(), _xy.y() );
 
-    if( ( p == nullptr ) )
-        return true;
+////    if( ( p == nullptr ) )
+////        return true;
 
-    if( ( p->isWhite() != m_board->whitesAreMoving() ) && ( m_selectedPiece == nullptr ) ) //if selected != nullptr, it can be move for bit
-        return true;
+////    if( ( p->isWhite() != m_board->whitesAreMoving() ) && ( m_selectedPiece == nullptr ) ) //if selected != nullptr, it can be move for bit
+////        return true;
 
-    return false;
-}
+////    return false;
+////}
 
+//bool IGameController::isAttack( QPoint _xy ) const
+//{
+//   if( !m_board->getCell( _xy.x(), _xy.y() ) )
+//       return false;
+
+//   return ( m_board->getCell( _xy.x(), _xy.y() )->isWhite() != m_selectedPiece->isWhite() )
+//           && ( isMoving( _xy ) );
+//}
+
+//void IGameController::move_set( QPoint _xy )
+//{
+
+//}
 
 
 void IGameController::boardHaveBeenClicked( QPoint _xy )

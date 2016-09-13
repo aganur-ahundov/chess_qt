@@ -38,7 +38,8 @@ QVector < QPoint > King::getVectorOfPossibleMoves(const Board &_b)  const
     check_position( _b, moves, 1, -1 );
     check_position( _b, moves, 1, 0 );
     check_position( _b, moves, 1, 1 );
-    check_position( _b, moves, 0, -1 );
+    check_position( _b, moves, 0, 1 );
+    check_position( _b, moves, -1, 0 );
     check_position( _b, moves, -1, 1 );
 
 

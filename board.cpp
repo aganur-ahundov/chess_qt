@@ -16,10 +16,10 @@
 Board::Board( bool _whitesGoing )
     :m_whitesGoing ( _whitesGoing )
 {
-    m_pieces = new QPointer < Piece >* [ Board::MAX_WIDTH ];
+    m_pieces = new QScopedPointer < Piece >* [ Board::MAX_WIDTH ];
 
     for ( int i = 0; i < Board::MAX_WIDTH; i++ )
-        m_pieces[i] = new QPointer < Piece > [ Board::MAX_HEIGHT ];
+        m_pieces[i] = new QScopedPointer < Piece > [ Board::MAX_HEIGHT ];
 }
 
 
@@ -28,23 +28,11 @@ void Board::move_figure( Piece *_p, QPoint _c )    //отправлять соо
     if ( !posIsValid( _c ) )
         throw std::runtime_error( "Invalid position" );
 
-    if( m_pieces[ _c.x() ][ _c.y() ].isNull() == false )
-     {
-        if ( m_pieces[ _c.x() ][ _c.y() ]->isWhite() == _p->isWhite() )
-        {
-            return;
-        }
-    }
-    else
-    {
-        m_pieces[ _c.x() ][ _c.y() ] = _p;
 
-        m_pieces[ _p->getX() ][ _p->getY() ].clear();
-        Q_ASSERT( m_pieces[ _p->getX() ][ _p->getY() ].isNull() );
+     m_pieces[ _c.x() ][ _c.y() ].reset( m_pieces[ _p->getX() ][ _p->getY() ].take() );
+     Q_ASSERT( m_pieces[ _p->getX() ][ _p->getY() ].isNull() );
 
-        _p->setPos( _c );
-        Q_ASSERT( m_pieces[ _c.x() ][ _c.y() ].isNull() == false );
-    }
+     _p->setPos( _c );
 }
 
 
@@ -52,7 +40,7 @@ void Board::clear()
 {
     for( int i = 0; i < Board::MAX_HEIGHT; i++ )
         for ( int j = 0; j < Board::MAX_WIDTH; j++ )
-            m_pieces[i][j].clear();
+            m_pieces[i][j].reset();
 }
 
 
@@ -103,41 +91,41 @@ void Board::restart()
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 void Board::create_pawn( QPoint _xy, bool _isWhite )
 {
-    m_pieces[ _xy.x() ][ _xy.y() ] = new Pawn( _isWhite, _xy.x(), _xy.y() );
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Pawn( _isWhite, _xy.x(), _xy.y() ) );
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_bishop( QPoint _xy, bool _isWhite )
 {
-    m_pieces[ _xy.x() ][ _xy.y() ] = new Bishop( _isWhite, _xy.x(), _xy.y() );
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Bishop( _isWhite, _xy.x(), _xy.y() ) );
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_king( QPoint _xy, bool _isWhite )
 {
-    m_pieces[ _xy.x() ][ _xy.y() ] = new King( _isWhite, _xy.x(), _xy.y() );
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new King( _isWhite, _xy.x(), _xy.y() ) );
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_queen( QPoint _xy, bool _isWhite )
 {
-    m_pieces[ _xy.x() ][ _xy.y() ] = new Queen( _isWhite, _xy.x(), _xy.y() );
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Queen( _isWhite, _xy.x(), _xy.y() ) );
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 void Board::create_knight( QPoint _xy, bool _isWhite )
 {
-    m_pieces[ _xy.x() ][ _xy.y() ] = new Knight( _isWhite, _xy.x(), _xy.y() );
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Knight( _isWhite, _xy.x(), _xy.y() ) );
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
 
 void Board::create_rook( QPoint _xy, bool _isWhite )
 {
-    m_pieces[ _xy.x() ][ _xy.y() ] = new Rook( _isWhite, _xy.x(), _xy.y() );
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new Rook( _isWhite, _xy.x(), _xy.y() ) );
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/

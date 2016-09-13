@@ -9,10 +9,10 @@ BoardWidget::BoardWidget( QWidget *parent )
 {
     const int BOARD_SIZE = 8;
 
-    m_gameBoard = new QPointer < QLabel >* [BOARD_SIZE];
+    m_gameBoard = new QScopedPointer < QLabel >* [BOARD_SIZE];
 
     for( int i = 0; i < BOARD_SIZE; i++ )
-       m_gameBoard[i] = new QPointer < QLabel > [BOARD_SIZE];
+       m_gameBoard[i] = new QScopedPointer < QLabel > [BOARD_SIZE];
 
     clearPositionOfCurentPiece();
 }
@@ -39,16 +39,16 @@ void BoardWidget::createPiece( const QString & _path, QPoint _xy )
     p = p.scaled( 80, 80 );
     newPiece->setPixmap( p );
 
-    m_gameBoard[_xy.x()][_xy.y()] = newPiece;
+    m_gameBoard[_xy.x()][_xy.y()].reset( newPiece );
     newPiece->move( toWidgetCoordinates( _xy ) );
 }
 
 
 void BoardWidget::move_piece( QPoint _from, QPoint _to )
 {
-    m_gameBoard[ _to.x() ][ _to.y() ] = m_gameBoard[ _from.x() ][ _from.y() ].data();
+    m_gameBoard[ _to.x() ][ _to.y() ].reset( m_gameBoard[ _from.x() ][ _from.y() ].take() );
     m_gameBoard[ _to.x() ][ _to.y() ]->move( toWidgetCoordinates( _to ) );
-    m_gameBoard[ _from.x() ][ _from.y() ].clear();
+   // m_gameBoard[ _from.x() ][ _from.y() ].reset();
 
 
     Q_ASSERT ( m_gameBoard[ _to.x() ][ _to.y() ].isNull() == false );
@@ -58,7 +58,7 @@ void BoardWidget::move_piece( QPoint _from, QPoint _to )
 
 void BoardWidget::delete_piece( QPoint _xy )
 {
-    m_gameBoard[ _xy.x() ][ _xy.y() ].clear();
+    m_gameBoard[ _xy.x() ][ _xy.y() ].reset();
 }
 
 

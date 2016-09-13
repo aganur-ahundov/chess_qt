@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #include <QVector>
-#include <QPointer>
+#include <QScopedPointer>
 #include <QPoint>
 #include <QObject>
 
@@ -52,7 +52,7 @@ private:
     bool posIsValid( QPoint _pos ) const;
 
 private:
-    QPointer < Piece >** m_pieces;
+    QScopedPointer < Piece >** m_pieces;
     bool m_whitesGoing;
 
 };
