@@ -10,7 +10,7 @@ class Board;
 
 //абстрактный класс - шахматная фигура
 class Piece
-        : public QObject  //for using QPointer
+        : public QObject
 {
     Q_OBJECT
 /*-----------------------------------------------*/
@@ -40,6 +40,8 @@ public:
     void setY( int _y );
     void setPos( QPoint _xy );
     virtual QString getTitle() const = 0;
+    virtual void moving( QPoint _to ) { return; }
+    virtual bool isMoved() const { return true; }
 
 /*-------------------------------------------------------------------*/
 

@@ -14,9 +14,10 @@ public:
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
     QString getTitle() const override;
     bool isMoved() const;
+    void moving( QPoint _to ) override;
 
 private:
-    bool m_moved;
+    bool m_haveMoved;
 
 };
 
@@ -27,7 +28,13 @@ inline QString Rook::getTitle() const
 
 inline bool Rook::isMoved() const
 {
-    return m_moved;
+    return m_haveMoved;
 }
+
+inline void Rook::moving( QPoint _to )
+{
+    m_haveMoved = true;
+}
+
 
 #endif // ROOK_H

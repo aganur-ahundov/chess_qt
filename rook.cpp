@@ -2,7 +2,7 @@
 #include <QVector>
 
 Rook::Rook( bool _isWhite, int _x, int _y )
-    :Piece( _isWhite, _x, _y ), m_moved(false)
+    :Piece( _isWhite, _x, _y ), m_haveMoved(false)
 {
 }
 

@@ -13,13 +13,23 @@ public:
 
     QVector < QPoint > getVectorOfPossibleMoves( const Board &_b ) const override;
     QString getTitle() const override;
-    bool isMoved() const;
+    bool isMoved() const override;
+    void moving( QPoint _to ) override;
+
+signals:
+    void left_castling_signal();
+    void right_castling_signal();
+
+private:
+    void makeACastling( const Board & _b, QVector < QPoint > & _v ) const;
+    void rightCastling( const Board & _b, QVector < QPoint > & _v ) const;
+    void leftCastling( const Board & _b, QVector < QPoint > & _v ) const;
 
 protected:
    void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const override;
 
 private:
-   bool m_moved;
+   bool m_haveMoved;
 };
 
 inline QString King::getTitle() const
@@ -29,7 +39,9 @@ inline QString King::getTitle() const
 
 inline bool King::isMoved() const
 {
-    return m_moved;
+    return m_haveMoved;
 }
+
+
 
 #endif // KING_H

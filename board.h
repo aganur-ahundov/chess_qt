@@ -33,6 +33,10 @@ public:
     void restart(); //all pieces on default positions
     void clear();   //clear all data
 
+public slots:
+    void left_castling_slot() {}
+    void right_castling_slot();
+
 signals:
     //signals for controller ///argumants can be changed
     void piece_have_moved( Piece* _p, QPoint _from, QPoint _to ) const;
