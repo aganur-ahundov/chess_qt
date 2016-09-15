@@ -27,15 +27,48 @@ void Board::right_castling_slot()
 {
     if( whitesAreMoving() )
     {
+        emit right_castling_signal( QPoint ( MAX_WIDTH - 1, MAX_HEIGHT - 1 )
+                                    , QPoint( MAX_WIDTH - 3, MAX_HEIGHT - 1 )
+                                    );
+
         move_figure(
                     m_pieces[ MAX_WIDTH - 1 ][ MAX_HEIGHT - 1 ].data()
                     , QPoint ( MAX_WIDTH - 3, MAX_HEIGHT - 1 )
+                );        
+    }
+    else
+    {
+        emit right_castling_signal( QPoint ( MAX_WIDTH - 1, 0 )
+                                    , QPoint( MAX_WIDTH - 3, 0 )
+                                    );
+
+        move_figure( m_pieces[ MAX_WIDTH - 1 ][ 0 ].data()
+                , QPoint ( MAX_WIDTH - 3, 0 )
+                );
+    }
+}
+
+void Board::left_castling_slot()
+{
+    if( whitesAreMoving() )
+    {
+        emit left_castling_signal( QPoint ( 0, MAX_HEIGHT - 1 )
+                                    , QPoint( 3, MAX_HEIGHT - 1 )
+                                    );
+
+        move_figure(
+                    m_pieces[ 0 ][ MAX_HEIGHT - 1 ].data()
+                    , QPoint ( 3, MAX_HEIGHT - 1 )
                 );
     }
     else
     {
-        move_figure( m_pieces[ MAX_WIDTH - 1 ][ 0 ].data()
-                , QPoint ( MAX_WIDTH, 0 )
+        emit left_castling_signal( QPoint ( 0, 0 )
+                                    , QPoint( 3, 0 )
+                                    );
+
+        move_figure( m_pieces[ 0 ][ 0 ].data()
+                , QPoint ( 3, 0 )
                 );
     }
 }
@@ -46,6 +79,7 @@ void Board::move_figure( Piece *_p, QPoint _c )    //отправлять соо
     if ( !posIsValid( _c ) )
         throw std::runtime_error( "Invalid position" );
 
+    m_pieces[ _p->getX() ][ _p->getY() ].data()->moving( _c );
 
      m_pieces[ _c.x() ][ _c.y() ].reset( m_pieces[ _p->getX() ][ _p->getY() ].take() );
      Q_ASSERT( m_pieces[ _p->getX() ][ _p->getY() ].isNull() );
@@ -123,11 +157,14 @@ void Board::create_bishop( QPoint _xy, bool _isWhite )
 
 void Board::create_king( QPoint _xy, bool _isWhite )
 {
-    King* newKing = new King( _isWhite, _xy.x(), _xy.y() );
-    m_pieces[ _xy.x() ][ _xy.y() ].reset( newKing );
+    m_pieces[ _xy.x() ][ _xy.y() ].reset( new King( _isWhite, _xy.x(), _xy.y() ) );
 
-    connect( newKing, SIGNAL ( right_castling_signal() )
-                    , SLOT( right_castling_slot() ) );
+    connect( m_pieces[ _xy.x() ][ _xy.y() ].data(), SIGNAL( right_castling_signal() )
+                    , SLOT(right_castling_slot()) );
+
+    connect( m_pieces[ _xy.x() ][ _xy.y() ].data(), SIGNAL( left_castling_signal() )
+            , SLOT( left_castling_slot() )
+            );
 
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }

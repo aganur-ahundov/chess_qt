@@ -34,7 +34,7 @@ public:
     void clear();   //clear all data
 
 public slots:
-    void left_castling_slot() {}
+    void left_castling_slot();
     void right_castling_slot();
 
 signals:
@@ -42,6 +42,8 @@ signals:
     void piece_have_moved( Piece* _p, QPoint _from, QPoint _to ) const;
     void piece_have_beaten( Piece* _p ) const;
     void create_piece( QString const & _title, QPoint _pos );
+    void right_castling_signal( QPoint _from, QPoint _to );
+    void left_castling_signal( QPoint _from, QPoint _to );
 
 public:
     void create_pawn( QPoint _xy, bool _isWhite );

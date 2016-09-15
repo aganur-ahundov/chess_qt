@@ -103,4 +103,3 @@ void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v,
     m_gameBoard->setVectorOfPositions( _v );
     m_gameBoard->setPositionOfCurrentPiece( _xy );
 }
-

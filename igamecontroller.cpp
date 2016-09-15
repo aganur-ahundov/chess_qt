@@ -16,6 +16,13 @@ IGameController::IGameController()
     connect( m_board.data(), SIGNAL(create_piece(QString,QPoint))
              , SLOT( boared_create_piece_slot( QString,QPoint ) ) );
 
+    connect( m_board.data(), SIGNAL( right_castling_signal( QPoint,QPoint ) )
+             , SIGNAL( moved(QPoint,QPoint) )
+                );
+
+    connect( m_board.data(), SIGNAL( left_castling_signal( QPoint,QPoint ) )
+             , SIGNAL( moved( QPoint,QPoint ) )
+                );
 }
 
 

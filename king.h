@@ -16,10 +16,6 @@ public:
     bool isMoved() const override;
     void moving( QPoint _to ) override;
 
-signals:
-    void left_castling_signal();
-    void right_castling_signal();
-
 private:
     void makeACastling( const Board & _b, QVector < QPoint > & _v ) const;
     void rightCastling( const Board & _b, QVector < QPoint > & _v ) const;

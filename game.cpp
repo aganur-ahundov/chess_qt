@@ -27,6 +27,12 @@ Game::Game()
     connect( m_gameController.data(), SIGNAL( moved( QPoint,QPoint ) )
              , m_graphController.data(), SLOT( delete_piece( QPoint ) )  );
 
+    connect( m_gameController.data(), SIGNAL( castling_signal( QPoint,QPoint ) )
+             , m_graphController.data(), SLOT( move_piece( QPoint,QPoint ) )
+                );
+
+
+
     m_gameController->start();
 }
 

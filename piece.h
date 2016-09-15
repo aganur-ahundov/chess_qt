@@ -45,11 +45,15 @@ public:
 
 /*-------------------------------------------------------------------*/
 
-
     //choose all cells for moving
     virtual QVector <QPoint> getVectorOfPossibleMoves( Board const & _b ) const = 0;
 
 /*-----------------------------------------------*/
+
+signals:
+    void left_castling_signal();
+    void right_castling_signal();
+
 private:
     int  m_x;       //координаты на доске
     int  m_y;
