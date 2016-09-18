@@ -37,6 +37,19 @@ void Pawn::check_position( const Board &_b, QVector <QPoint> &_v, int _directI, 
 }
 
 
+void Pawn::moving( QPoint _to )
+{
+    if ( isWhite() )
+    {
+        if ( _to.y() ==  0 )
+            emit pawn_last_step_signal( _to );
+    }
+    else
+        if( _to.y() == Board::MAX_HEIGHT - 1 )
+            emit pawn_last_step_signal( _to );
+}
+
+
 
 QVector < QPoint > Pawn::getVectorOfPossibleMoves( const Board & _b ) const
 {

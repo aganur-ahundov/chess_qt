@@ -13,7 +13,7 @@ IGameController::IGameController()
     m_board = QSharedPointer < Board > ( new Board() ) ;
 
 
-    connect( m_board.data(), SIGNAL(create_piece(QString,QPoint))
+    connect( m_board.data(), SIGNAL( create_piece( QString,QPoint ) )
              , SLOT( boared_create_piece_slot( QString,QPoint ) ) );
 
     connect( m_board.data(), SIGNAL( right_castling_signal( QPoint,QPoint ) )
@@ -23,35 +23,39 @@ IGameController::IGameController()
     connect( m_board.data(), SIGNAL( left_castling_signal( QPoint,QPoint ) )
              , SIGNAL( moved( QPoint,QPoint ) )
                 );
+
+    connect( m_board.data(), SIGNAL( pawn_last_step_signal( QPoint ) )
+             , SLOT( pawn_transformation_slot( QPoint ) )
+             );
 }
 
 
-////bool IGameController::failClick( QPoint _xy ) const
-////{
-////    Piece* p = m_board->getCell( _xy.x(), _xy.y() );
+void IGameController::pawn_transformation_slot( QPoint _xy )
+{
+    m_pawnTransormPos = _xy;
+    emit pawn_transformation_signal();
+}
 
-////    if( ( p == nullptr ) )
-////        return true;
 
-////    if( ( p->isWhite() != m_board->whitesAreMoving() ) && ( m_selectedPiece == nullptr ) ) //if selected != nullptr, it can be move for bit
-////        return true;
+void IGameController::pawn_transformed_to_bishop_slot()
+{
+    m_board->create_bishop( m_pawnTransormPos, !m_board->whitesAreMoving() ); // after click for moving - turn was changed
+}
 
-////    return false;
-////}
+void IGameController::pawn_transformed_to_knight_slot()
+{
+    m_board->create_knight( m_pawnTransormPos, !m_board->whitesAreMoving() );
+}
 
-//bool IGameController::isAttack( QPoint _xy ) const
-//{
-//   if( !m_board->getCell( _xy.x(), _xy.y() ) )
-//       return false;
+void IGameController::pawn_transformed_to_queen_slot()
+{
+    m_board->create_queen( m_pawnTransormPos, !m_board->whitesAreMoving() );
+}
 
-//   return ( m_board->getCell( _xy.x(), _xy.y() )->isWhite() != m_selectedPiece->isWhite() )
-//           && ( isMoving( _xy ) );
-//}
-
-//void IGameController::move_set( QPoint _xy )
-//{
-
-//}
+void IGameController::pawn_transformed_to_rook_slot()
+{
+    m_board->create_rook( m_pawnTransormPos, !m_board->whitesAreMoving() );
+}
 
 
 void IGameController::boardHaveBeenClicked( QPoint _xy )
@@ -89,7 +93,7 @@ bool IGameController::isThatColor( QPoint _xy ) const
     return p->isWhite() == m_board->whitesAreMoving();
 }
 
-void IGameController::boared_create_piece_slot(const QString &_title, QPoint _xy)
+void IGameController::boared_create_piece_slot( const QString &_title, QPoint _xy )
 {
     emit boared_create_piece_signal( _title, _xy );
 }

@@ -26,6 +26,14 @@ public:
 
 signals:
     void clicked_on_board( QPoint _xy ); // signal send board coordinates
+    void create_rook_signal( QPoint _xy );
+    void create_queen_signal( QPoint _xy );
+    void create_knight_signal( QPoint _xy );
+    void create_bishop_signal( QPoint _xy );
+    void pawn_transformed_to_rook_signal();
+    void pawn_transformed_to_bishop_signal();
+    void pawn_transformed_to_knight_signal();
+    void pawn_transformed_to_queen_signal();
 
 public slots:
     void clicked_point( QPoint _xy );
@@ -33,15 +41,18 @@ public slots:
     void delete_piece( QPoint _xy );
     void create_piece( QString const & _title, QPoint _xy ) const;
     void paint_cells_for_moving( QVector < QPoint > const & _v, QPoint );
+    void pawn_transformation_slot();
 
 private:
     void setBackground();
     void loadPiecesInfo();
     QPoint toBoardCoordinates( QPoint _xy ) const;
+    void createPawnList();
 
 private:
     QMap < QString, QString >       m_piecesAndRoutes;    //pieces title and routes for pictures
     QSharedPointer < BoardWidget >  m_gameBoard;
+    QSharedPointer < QWidget >      m_pawnTransofrmationList;
 };
 
 

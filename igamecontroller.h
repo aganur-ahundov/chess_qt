@@ -25,6 +25,12 @@ public:
 public slots:
     void boardHaveBeenClicked( QPoint _xy );
     void boared_create_piece_slot( QString const & _title, QPoint _xy );
+    void pawn_transformation_slot( QPoint _xy );
+    void pawn_transformed_to_rook_slot();
+    void pawn_transformed_to_bishop_slot();
+    void pawn_transformed_to_knight_slot();
+    void pawn_transformed_to_queen_slot();
+
 
 signals:
     void moved( QPoint _from, QPoint _to );
@@ -32,23 +38,24 @@ signals:
     void have_some_cells_for_moving( QVector < QPoint > const & _v, QPoint );
     void piece_have_been_beaten( QPoint _xy );
     void clearPosOfCurrentPiece();
+    void castling_signal( QPoint, QPoint );
+    void pawn_transformation_signal();
 
 private:
     bool isThatColor( QPoint _xy ) const;     //check is it correct piece
-    bool failClick( QPoint _xy ) const;       //clicked on enemy or free cell
     bool isMoving ( QPoint _xy ) const;       //clicked for moving
     bool isAttack( QPoint _xy ) const;
     void clear_data();
-    void move_set( QPoint _xy );
 
 private:
     QSharedPointer < Board > m_board;
     Piece* m_selectedPiece;
     QVector < QPoint > m_posForMoving;
+    QPoint m_pawnTransormPos;
 };
 
-//##########################################//
 
+//##########################################//
 inline void IGameController::clear_data()
 {
     m_selectedPiece = nullptr;

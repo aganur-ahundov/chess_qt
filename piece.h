@@ -53,6 +53,8 @@ public:
 signals:
     void left_castling_signal();
     void right_castling_signal();
+    void pawn_last_step_signal( QPoint _xy );
+
 
 private:
     int  m_x;       //координаты на доске

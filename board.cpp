@@ -144,6 +144,11 @@ void Board::restart()
 void Board::create_pawn( QPoint _xy, bool _isWhite )
 {
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new Pawn( _isWhite, _xy.x(), _xy.y() ) );
+
+    connect( m_pieces[ _xy.x() ][ _xy.y() ].data(), SIGNAL( pawn_last_step_signal( QPoint ) )
+            , SIGNAL( pawn_last_step_signal( QPoint ) )
+            );
+
     emit create_piece( m_pieces[_xy.x()][_xy.y()]->getTitle(), _xy );
 }
 
@@ -160,7 +165,7 @@ void Board::create_king( QPoint _xy, bool _isWhite )
     m_pieces[ _xy.x() ][ _xy.y() ].reset( new King( _isWhite, _xy.x(), _xy.y() ) );
 
     connect( m_pieces[ _xy.x() ][ _xy.y() ].data(), SIGNAL( right_castling_signal() )
-                    , SLOT(right_castling_slot()) );
+                    , SLOT( right_castling_slot() ) );
 
     connect( m_pieces[ _xy.x() ][ _xy.y() ].data(), SIGNAL( left_castling_signal() )
             , SLOT( left_castling_slot() )

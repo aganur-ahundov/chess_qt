@@ -41,6 +41,8 @@ void BoardWidget::createPiece( const QString & _path, QPoint _xy )
 
     m_gameBoard[_xy.x()][_xy.y()].reset( newPiece );
     newPiece->move( toWidgetCoordinates( _xy ) );
+
+    newPiece->show();
 }
 
 

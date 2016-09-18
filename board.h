@@ -44,6 +44,7 @@ signals:
     void create_piece( QString const & _title, QPoint _pos );
     void right_castling_signal( QPoint _from, QPoint _to );
     void left_castling_signal( QPoint _from, QPoint _to );
+    void pawn_last_step_signal( QPoint _xy );
 
 public:
     void create_pawn( QPoint _xy, bool _isWhite );

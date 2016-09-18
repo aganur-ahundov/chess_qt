@@ -2,7 +2,11 @@
 #include "pieces_title.h"
 #include "piece.h"
 #include "boardwidget.h"
-#include <QPointer>
+#include <QSharedPointer>
+#include <QDialog>
+#include <QPushButton>
+
+
 
 IGraphicsController::IGraphicsController()
 {
@@ -10,6 +14,7 @@ IGraphicsController::IGraphicsController()
     setBackground();\
     loadPiecesInfo();
 
+    createPawnList();
 
     connect( m_gameBoard.data(), SIGNAL(clicked_on_board(QPoint))
              , SLOT(clicked_point(QPoint)) );
@@ -102,4 +107,37 @@ void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v,
 {
     m_gameBoard->setVectorOfPositions( _v );
     m_gameBoard->setPositionOfCurrentPiece( _xy );
+}
+
+
+void IGraphicsController::pawn_transformation_slot()
+{
+    m_pawnTransofrmationList->show();
+}
+
+
+void IGraphicsController::createPawnList()
+{
+    m_pawnTransofrmationList =  QSharedPointer < QWidget > ( new QWidget() );
+    QPushButton* rook = new QPushButton( "Rook", m_pawnTransofrmationList.data() );
+    QPushButton* knight = new QPushButton( "Knight", m_pawnTransofrmationList.data() );
+    QPushButton* bishop = new QPushButton( "Bishop", m_pawnTransofrmationList.data() );
+    QPushButton* queen = new QPushButton( "Queen", m_pawnTransofrmationList.data() );
+
+
+    connect( rook, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
+    connect( knight, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
+    connect( bishop, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
+    connect( queen, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
+
+
+    connect( rook, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_rook_signal() ) );
+    connect( knight, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_knight_signal() ) );
+    connect( bishop, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_bishop_signal() ) );
+    connect( queen, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_queen_signal() ) );
+
+    rook->move( 55, 50 );
+    knight->move( 55, 120 );
+    bishop->move( 55, 190 );
+    queen->move( 55, 260 );
 }

@@ -16,6 +16,7 @@ private:
     void check_position( Board const & _b, QVector < QPoint > & _v, int _directI, int _directJ ) const override;
     QString getTitle() const override;
     bool newStep( const Board &_b, QVector < QPoint > & _v, short _dirJ ) const;
+    void moving( QPoint _to ) override;
 };
 
 

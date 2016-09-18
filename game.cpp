@@ -20,17 +20,41 @@ Game::Game()
     connect( m_gameController.data(), SIGNAL( boared_create_piece_signal( QString,QPoint))
              , m_graphController.data(), SLOT( create_piece( QString,QPoint )) );
 
-    connect( m_gameController.data(), SIGNAL(have_some_cells_for_moving(QVector<QPoint>, QPoint))
-             , m_graphController.data(), SLOT(paint_cells_for_moving(QVector<QPoint>, QPoint) )
+    connect( m_gameController.data(), SIGNAL( have_some_cells_for_moving( QVector<QPoint>, QPoint ) )
+             , m_graphController.data(), SLOT( paint_cells_for_moving( QVector<QPoint>, QPoint ) )
                 );
 
     connect( m_gameController.data(), SIGNAL( moved( QPoint,QPoint ) )
-             , m_graphController.data(), SLOT( delete_piece( QPoint ) )  );
+             , m_graphController.data(), SLOT( delete_piece( QPoint ) )
+             );
 
     connect( m_gameController.data(), SIGNAL( castling_signal( QPoint,QPoint ) )
              , m_graphController.data(), SLOT( move_piece( QPoint,QPoint ) )
                 );
 
+    connect( m_gameController.data(), SIGNAL( pawn_transformation_signal() )
+             , m_graphController.data(), SLOT( pawn_transformation_slot() )
+             );
+
+
+    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_bishop_signal() )
+             , m_gameController.data(), SLOT( pawn_transformed_to_bishop_slot() )
+             );
+
+
+    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_knight_signal() )
+             , m_gameController.data(), SLOT( pawn_transformed_to_knight_slot() )
+             );
+
+
+    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_queen_signal() )
+             , m_gameController.data(), SLOT( pawn_transformed_to_queen_slot() )
+             );
+
+
+    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_rook_signal() )
+             , m_gameController.data(), SLOT( pawn_transformed_to_rook_slot() )
+             );
 
 
     m_gameController->start();
