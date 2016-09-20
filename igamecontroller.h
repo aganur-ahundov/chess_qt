@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QVector>
 #include <QPoint>
+#include "pieces_title.h"
 
 //###########################
 class Board;
@@ -26,10 +27,7 @@ public slots:
     void boardHaveBeenClicked( QPoint _xy );
     void boared_create_piece_slot( QString const & _title, QPoint _xy );
     void pawn_transformation_slot( QPoint _xy );
-    void pawn_transformed_to_rook_slot();
-    void pawn_transformed_to_bishop_slot();
-    void pawn_transformed_to_knight_slot();
-    void pawn_transformed_to_queen_slot();
+    void pawn_transformed_slot( PiecesTitle::Piece_ID );
 
 
 signals:

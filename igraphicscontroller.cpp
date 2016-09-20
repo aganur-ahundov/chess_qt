@@ -11,13 +11,16 @@
 IGraphicsController::IGraphicsController()
 {
     m_gameBoard = QSharedPointer < BoardWidget > ( new BoardWidget() );
+    m_pawnDialog = QSharedPointer < PawnTransformationDialog > ( new PawnTransformationDialog() );
+
     setBackground();\
     loadPiecesInfo();
 
-    createPawnList();
-
     connect( m_gameBoard.data(), SIGNAL(clicked_on_board(QPoint))
              , SLOT(clicked_point(QPoint)) );
+
+    connect( m_pawnDialog.data(), SIGNAL( clicked( PiecesTitle::Piece_ID ) )
+             , SIGNAL(pawn_transformed_signal(PiecesTitle::Piece_ID))  );
 }
 
 
@@ -112,32 +115,5 @@ void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v,
 
 void IGraphicsController::pawn_transformation_slot()
 {
-    m_pawnTransofrmationList->show();
-}
-
-
-void IGraphicsController::createPawnList()
-{
-    m_pawnTransofrmationList =  QSharedPointer < QWidget > ( new QWidget() );
-    QPushButton* rook = new QPushButton( "Rook", m_pawnTransofrmationList.data() );
-    QPushButton* knight = new QPushButton( "Knight", m_pawnTransofrmationList.data() );
-    QPushButton* bishop = new QPushButton( "Bishop", m_pawnTransofrmationList.data() );
-    QPushButton* queen = new QPushButton( "Queen", m_pawnTransofrmationList.data() );
-
-
-    connect( rook, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
-    connect( knight, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
-    connect( bishop, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
-    connect( queen, SIGNAL( clicked( bool ) ), m_pawnTransofrmationList.data(), SLOT( hide() ) );
-
-
-    connect( rook, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_rook_signal() ) );
-    connect( knight, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_knight_signal() ) );
-    connect( bishop, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_bishop_signal() ) );
-    connect( queen, SIGNAL( clicked( bool ) ), SIGNAL( pawn_transformed_to_queen_signal() ) );
-
-    rook->move( 55, 50 );
-    knight->move( 55, 120 );
-    bishop->move( 55, 190 );
-    queen->move( 55, 260 );
+    m_pawnDialog->show();
 }

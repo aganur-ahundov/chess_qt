@@ -26,6 +26,17 @@ namespace PiecesTitle
 
 
     /*---------------------------------------------------------*/
+
+
+    enum Piece_ID
+    {
+        Pawn_ID,
+        Knight_ID,
+        Bishop_ID,
+        Rook_ID,
+        Queen_ID,
+        King_ID
+    };
 }
 
 

@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QMap>
 #include <QPoint>
+#include "pawntransformationdialog.h"
 
 
 class Piece;
@@ -30,10 +31,7 @@ signals:
     void create_queen_signal( QPoint _xy );
     void create_knight_signal( QPoint _xy );
     void create_bishop_signal( QPoint _xy );
-    void pawn_transformed_to_rook_signal();
-    void pawn_transformed_to_bishop_signal();
-    void pawn_transformed_to_knight_signal();
-    void pawn_transformed_to_queen_signal();
+    void pawn_transformed_signal( PiecesTitle::Piece_ID );
 
 public slots:
     void clicked_point( QPoint _xy );
@@ -47,12 +45,11 @@ private:
     void setBackground();
     void loadPiecesInfo();
     QPoint toBoardCoordinates( QPoint _xy ) const;
-    void createPawnList();
 
 private:
     QMap < QString, QString >       m_piecesAndRoutes;    //pieces title and routes for pictures
     QSharedPointer < BoardWidget >  m_gameBoard;
-    QSharedPointer < QWidget >      m_pawnTransofrmationList;
+    QSharedPointer < PawnTransformationDialog > m_pawnDialog;
 };
 
 

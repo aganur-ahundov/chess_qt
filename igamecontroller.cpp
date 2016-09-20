@@ -1,6 +1,7 @@
 #include "igamecontroller.h"
 #include "board.h"
 #include "piece.h"
+#include "pieces_title.h"
 
 
 IGameController::~IGameController() = default;
@@ -37,24 +38,26 @@ void IGameController::pawn_transformation_slot( QPoint _xy )
 }
 
 
-void IGameController::pawn_transformed_to_bishop_slot()
+void IGameController::pawn_transformed_slot( PiecesTitle::Piece_ID _id )
 {
-    m_board->create_bishop( m_pawnTransormPos, !m_board->whitesAreMoving() ); // after click for moving - turn was changed
-}
-
-void IGameController::pawn_transformed_to_knight_slot()
-{
-    m_board->create_knight( m_pawnTransormPos, !m_board->whitesAreMoving() );
-}
-
-void IGameController::pawn_transformed_to_queen_slot()
-{
-    m_board->create_queen( m_pawnTransormPos, !m_board->whitesAreMoving() );
-}
-
-void IGameController::pawn_transformed_to_rook_slot()
-{
-    m_board->create_rook( m_pawnTransormPos, !m_board->whitesAreMoving() );
+    switch ( _id )
+    {
+    case PiecesTitle::Bishop_ID:
+        m_board->create_bishop( m_pawnTransormPos, !m_board->whitesAreMoving() );
+        break;
+    case PiecesTitle::Rook_ID:
+        m_board->create_rook( m_pawnTransormPos, !m_board->whitesAreMoving() );
+        break;
+    case PiecesTitle::Knight_ID:
+        m_board->create_knight( m_pawnTransormPos, !m_board->whitesAreMoving() );
+        break;
+    case PiecesTitle::Queen_ID:
+        m_board->create_queen( m_pawnTransormPos, !m_board->whitesAreMoving() );
+        break;
+    default:
+        Q_ASSERT(0);
+        break;
+    }
 }
 
 

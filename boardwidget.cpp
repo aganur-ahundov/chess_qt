@@ -1,8 +1,9 @@
 #include "boardwidget.h"
-//#include <QSharedPointer>
 #include <QPointer>
 #include <QMouseEvent>
 #include <QPainter>
+
+
 
 BoardWidget::BoardWidget( QWidget *parent )
     : QWidget( parent )

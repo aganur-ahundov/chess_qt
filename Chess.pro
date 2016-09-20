@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     igraphicscontroller.cpp \
     boardwidget.cpp \
     game.cpp \
-    igamecontroller.cpp
+    igamecontroller.cpp \
+    pawntransformationdialog.cpp
 
 HEADERS  += mainwindow.h \
     piece.h \
@@ -41,7 +42,8 @@ HEADERS  += mainwindow.h \
     pieces_title.h \
     boardwidget.h \
     game.h \
-    igamecontroller.h
+    igamecontroller.h \
+    pawntransformationdialog.h
 
 FORMS    += mainwindow.ui
 

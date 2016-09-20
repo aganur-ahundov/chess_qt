@@ -37,23 +37,8 @@ Game::Game()
              );
 
 
-    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_bishop_signal() )
-             , m_gameController.data(), SLOT( pawn_transformed_to_bishop_slot() )
-             );
-
-
-    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_knight_signal() )
-             , m_gameController.data(), SLOT( pawn_transformed_to_knight_slot() )
-             );
-
-
-    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_queen_signal() )
-             , m_gameController.data(), SLOT( pawn_transformed_to_queen_slot() )
-             );
-
-
-    connect( m_graphController.data(), SIGNAL( pawn_transformed_to_rook_signal() )
-             , m_gameController.data(), SLOT( pawn_transformed_to_rook_slot() )
+    connect( m_graphController.data(), SIGNAL( pawn_transformed_signal( PiecesTitle::Piece_ID ) )
+             , m_gameController.data(), SLOT( pawn_transformed_slot( PiecesTitle::Piece_ID ) )
              );
 
 
