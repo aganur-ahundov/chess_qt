@@ -4,6 +4,8 @@
 #include <QSharedPointer>
 #include <QObject>
 #include <QVector>
+#include <QMap>
+#include <QSet>
 #include <QPoint>
 #include "pieces_title.h"
 
@@ -21,7 +23,7 @@ public:
     IGameController();
     ~IGameController();
 
-    void start() const;
+    void start();
 
 public slots:
     void boardHaveBeenClicked( QPoint _xy );
@@ -44,11 +46,17 @@ private:
     bool isMoving ( QPoint _xy ) const;       //clicked for moving
     bool isAttack( QPoint _xy ) const;
     void clear_data();
+    void updatePossibleMovesForPieces();
+    short countOfPiecesWhoCanBitKing() const;
+    void foundEnemyForKingByDirection( short _xDir, short _yDir, Piece* _king, short & _count ) const;
 
 private:
     QSharedPointer < Board > m_board;
     Piece* m_selectedPiece;
+    Piece* m_whiteKing;         //for some verifications
+    Piece* m_blackKing;
     QVector < QPoint > m_posForMoving;
+    QMap < Piece*, QSet < QPoint > > m_piecesAndPossibleMovePos;
     QPoint m_pawnTransormPos;
 };
 

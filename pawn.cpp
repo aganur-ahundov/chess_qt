@@ -45,7 +45,7 @@ void Pawn::moving( QPoint _to )
             emit pawn_last_step_signal( _to );
     }
     else
-        if( _to.y() == 2 )//Board::MAX_HEIGHT - 1 )
+        if( _to.y() == Board::MAX_HEIGHT - 1 )
             emit pawn_last_step_signal( _to );
 }
 
