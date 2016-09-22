@@ -13,6 +13,7 @@ public:
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
     QString getTitle() const override;
+    void accept( IVisitor & _visitor ) override { _visitor.visit( *this ); }
 
 protected:
     void check_position( Board const & _b, QVector <QPoint> & _v, int _directI, int _directJ ) const override;

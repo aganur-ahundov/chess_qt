@@ -15,6 +15,7 @@ public:
     QString getTitle() const override;
     bool isMoved() const;
     void moving( QPoint _to ) override;
+    void accept( IVisitor & _visitor ) override { _visitor.visit( *this ); }
 
 private:
     bool m_haveMoved;

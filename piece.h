@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QPoint>
 #include <stdexcept>
+#include "ivisitor.h"
+
 
 class Board;
 
@@ -42,6 +44,7 @@ public:
     virtual QString getTitle() const = 0;
     virtual void moving( QPoint _to ) { return; }
     virtual bool isMoved() const { return true; }
+    virtual void accept( IVisitor & _visitor ) = 0;
 
 /*-------------------------------------------------------------------*/
 

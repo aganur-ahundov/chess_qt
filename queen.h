@@ -4,7 +4,8 @@
 #include "piece.h"
 #include "pieces_title.h"
 
-class Queen : public Piece
+class Queen
+        : public Piece
 {
 public:
     Queen( bool _isWhite, int _x, int _y );
@@ -12,7 +13,7 @@ public:
 
     QVector < QPoint > getVectorOfPossibleMoves(const Board &_b) const override;
     QString getTitle() const;
-
+    void accept( IVisitor & _visitor ) override { _visitor.visit( *this ); }
 };
 
 

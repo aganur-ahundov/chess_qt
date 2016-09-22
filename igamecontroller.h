@@ -48,6 +48,9 @@ private:
     void clear_data();
     void updatePossibleMovesForPieces();
     short countOfPiecesWhoCanBitKing() const;
+    void countEnemys( Piece* _king, short & _count ) const;
+    void countKnights( QPoint _kingPos, short & _count ) const;
+    void checkKinght( QPoint _xy, short & _count ) const;
     void foundEnemyForKingByDirection( short _xDir, short _yDir, Piece* _king, short & _count ) const;
 
 private:
