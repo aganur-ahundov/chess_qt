@@ -65,12 +65,6 @@ void IGameController::pawn_transformed_slot( PiecesTitle::Piece_ID _id )
 
 void IGameController::boardHaveBeenClicked( QPoint _xy )
 {
-    int tmp = countOfPiecesWhoCanBitKing();
-
-    if (tmp){
-        QLabel * l = new QLabel( QString::number( tmp ));
-        l->show();
-    }
 
     if ( isThatColor( _xy ) )
     {
@@ -114,16 +108,19 @@ void IGameController::boared_create_piece_slot( const QString &_title, QPoint _x
 
 void IGameController::foundEnemyForKingByDirection(
                         short _xDir, short _yDir
-                        , Piece* _king, short & _count
+                        , Piece* _king, short &
+                        , QSet < QPoint > const & _moves
                      ) const
 {
 
     if( _count >= 2 )
         return;
 
+
     QPoint xy( _king->getX(), _king->getY() );
     bool metOurPiece = false;
     PieceVisitor v( QPoint( _king->getX(), _king->getY() ), _xDir, _yDir  );
+    QSet < QPoint > helpSet;
 
 
     while ( xy.x() >= 0 && xy.x() < 8 &&
@@ -135,10 +132,17 @@ void IGameController::foundEnemyForKingByDirection(
             if ( nextCell->isWhite() != _king->isWhite() )
             {
                nextCell->accept( v );
-
                 if( v.hit() )
                 {
                     _count++;
+                    if( _count == 1 )
+                    {
+                        helpSet.insert( QPoint( xy.x(), xy.y() ) );
+                        _moves = helpSet;
+                    }
+                    else
+                        _moves.clear();
+
                     break;
                 }
             }
@@ -149,6 +153,10 @@ void IGameController::foundEnemyForKingByDirection(
                 else
                     metOurPiece = true;
             }
+        }
+        else
+        {
+            helpSet.insert( QPoint( xy.x(), xy.y() ) );
         }
 
 
@@ -163,8 +171,10 @@ short IGameController::countOfPiecesWhoCanBitKing() const
     Piece * ourKing = ( ( m_board->whitesAreMoving() ) ? m_whiteKing : m_blackKing );
     short count = 0;
 
-    countEnemys( ourKing, count );
+    QSet < QPoint > setOfMoves;
+
     countKnights( QPoint( ourKing->getX(), ourKing->getY() ), count );
+    countEnemys( ourKing, count, setOfMoves );
 
     return count;
 }
@@ -204,16 +214,16 @@ void IGameController::countKnights( QPoint _kingPos, short &_count ) const
 }
 
 
-void IGameController::countEnemys( Piece *_king, short & _count ) const
+void IGameController::countEnemys( Piece *_king, short & _count, QSet < QPoint > const & _moves  ) const
 {
-    foundEnemyForKingByDirection( -1, 0, _king, _count );
-    foundEnemyForKingByDirection( -1, -1, _king, _count );
-    foundEnemyForKingByDirection( 0, -1, _king, _count );
-    foundEnemyForKingByDirection( 1, -1, _king, _count );
-    foundEnemyForKingByDirection( 1, 0, _king, _count );
-    foundEnemyForKingByDirection( 1, 1, _king, _count );
-    foundEnemyForKingByDirection( 0, 1, _king, _count );
-    foundEnemyForKingByDirection( -1, 1, _king, _count );
+    foundEnemyForKingByDirection( -1, 0, _king, _count, _moves  );
+    foundEnemyForKingByDirection( -1, -1, _king, _count, _moves  );
+    foundEnemyForKingByDirection( 0, -1, _king, _count, _moves  );
+    foundEnemyForKingByDirection( 1, -1, _king, _count, _moves  );
+    foundEnemyForKingByDirection( 1, 0, _king, _count, _moves  );
+    foundEnemyForKingByDirection( 1, 1, _king, _count, _moves  );
+    foundEnemyForKingByDirection( 0, 1, _king, _count, _moves  );
+    foundEnemyForKingByDirection( -1, 1, _king, _count,_moves  );
 }
 
 
