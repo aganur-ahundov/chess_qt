@@ -5,6 +5,10 @@
 #include "piecevisitor.h"
 #include "QLabel"
 
+inline uint qHash (const QPoint & key)
+{
+    return qHash (QPair<int,int>(key.x(), key.y()) );
+}
 
 IGameController::~IGameController() = default;
 
@@ -108,9 +112,9 @@ void IGameController::boared_create_piece_slot( const QString &_title, QPoint _x
 
 void IGameController::foundEnemyForKingByDirection(
                         short _xDir, short _yDir
-                        , Piece* _king, short &
-                        , QSet < QPoint > const & _moves
-                     ) const
+                        , Piece* _king, short & _count
+                        , QSet < QPoint > & _moves
+                     )
 {
 
     if( _count >= 2 )
@@ -121,6 +125,7 @@ void IGameController::foundEnemyForKingByDirection(
     bool metOurPiece = false;
     PieceVisitor v( QPoint( _king->getX(), _king->getY() ), _xDir, _yDir  );
     QSet < QPoint > helpSet;
+    Piece* pHelpPiece;
 
 
     while ( xy.x() >= 0 && xy.x() < 8 &&
@@ -134,10 +139,17 @@ void IGameController::foundEnemyForKingByDirection(
                nextCell->accept( v );
                 if( v.hit() )
                 {
+                    if( metOurPiece )
+                    {
+                        m_piecesAndPossibleMovePos[pHelpPiece] = helpSet;
+                        return;
+                    }
+
+
                     _count++;
                     if( _count == 1 )
                     {
-                        helpSet.insert( QPoint( xy.x(), xy.y() ) );
+                        helpSet.insert( xy );
                         _moves = helpSet;
                     }
                     else
@@ -151,12 +163,15 @@ void IGameController::foundEnemyForKingByDirection(
                 if( metOurPiece )
                     break;
                 else
-                    metOurPiece = true;
+                   {
+                        pHelpPiece = nextCell;
+                        metOurPiece = true;
+                   }
             }
         }
         else
         {
-            helpSet.insert( QPoint( xy.x(), xy.y() ) );
+            helpSet.insert( xy );
         }
 
 
@@ -166,21 +181,21 @@ void IGameController::foundEnemyForKingByDirection(
 }
 
 
-short IGameController::countOfPiecesWhoCanBitKing() const
+short IGameController::countOfPiecesWhoCanBitKing()
 {
     Piece * ourKing = ( ( m_board->whitesAreMoving() ) ? m_whiteKing : m_blackKing );
     short count = 0;
 
     QSet < QPoint > setOfMoves;
 
-    countKnights( QPoint( ourKing->getX(), ourKing->getY() ), count );
+    countKnights( QPoint( ourKing->getX(), ourKing->getY() ), count, setOfMoves );
     countEnemys( ourKing, count, setOfMoves );
 
     return count;
 }
 
 
-void IGameController::checkKinght( QPoint _xy, short & _count ) const
+void IGameController::checkKinght( QPoint _xy, short & _count, QSet < QPoint > & _moves )
 {
     if( _count >= 2 )
         return;
@@ -195,26 +210,30 @@ void IGameController::checkKinght( QPoint _xy, short & _count ) const
             if( p->isWhite() != m_board->whitesAreMoving() )
             {
                 if( p->getTitle().contains( "Knight" ) )
+                  {
                     _count++;
+                    _moves.insert( _xy );
+                  }
             }
         }
     }
 }
 
-void IGameController::countKnights( QPoint _kingPos, short &_count ) const
+
+void IGameController::countKnights( QPoint _kingPos, short &_count, QSet < QPoint > & _moves )
 {
-    checkKinght( QPoint( _kingPos.x() - 1 , _kingPos.y() - 2 ), _count );
-    checkKinght( QPoint( _kingPos.x() + 1 , _kingPos.y() - 2 ), _count );
-    checkKinght( QPoint( _kingPos.x() + 2 , _kingPos.y() - 1 ), _count );
-    checkKinght( QPoint( _kingPos.x() + 2 , _kingPos.y() + 1 ), _count );
-    checkKinght( QPoint( _kingPos.x() - 1 , _kingPos.y() + 2 ), _count );
-    checkKinght( QPoint( _kingPos.x() + 1 , _kingPos.y() + 2 ), _count );
-    checkKinght( QPoint( _kingPos.x() - 2 , _kingPos.y() + 1 ), _count );
-    checkKinght( QPoint( _kingPos.x() - 2 , _kingPos.y() - 1 ), _count );
+    checkKinght( QPoint( _kingPos.x() - 1 , _kingPos.y() - 2 ), _count,  _moves );
+    checkKinght( QPoint( _kingPos.x() + 1 , _kingPos.y() - 2 ), _count,  _moves );
+    checkKinght( QPoint( _kingPos.x() + 2 , _kingPos.y() - 1 ), _count,  _moves );
+    checkKinght( QPoint( _kingPos.x() + 2 , _kingPos.y() + 1 ), _count,  _moves );
+    checkKinght( QPoint( _kingPos.x() - 1 , _kingPos.y() + 2 ), _count,  _moves );
+    checkKinght( QPoint( _kingPos.x() + 1 , _kingPos.y() + 2 ), _count,  _moves );
+    checkKinght( QPoint( _kingPos.x() - 2 , _kingPos.y() + 1 ), _count,  _moves );
+    checkKinght( QPoint( _kingPos.x() - 2 , _kingPos.y() - 1 ), _count,  _moves );
 }
 
 
-void IGameController::countEnemys( Piece *_king, short & _count, QSet < QPoint > const & _moves  ) const
+void IGameController::countEnemys( Piece *_king, short & _count, QSet < QPoint > & _moves  )
 {
     foundEnemyForKingByDirection( -1, 0, _king, _count, _moves  );
     foundEnemyForKingByDirection( -1, -1, _king, _count, _moves  );

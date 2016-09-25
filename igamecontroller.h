@@ -47,11 +47,11 @@ private:
     bool isAttack( QPoint _xy ) const;
     void clear_data();
     void updatePossibleMovesForPieces();
-    short countOfPiecesWhoCanBitKing() const;
-    void countEnemys( Piece* _king, short & _count ) const;
-    void countKnights( QPoint _kingPos, short & _count ) const;
-    void checkKinght( QPoint _xy, short & _count ) const;
-    void foundEnemyForKingByDirection( short _xDir, short _yDir, Piece* _king, short & _count ) const;
+    short countOfPiecesWhoCanBitKing();
+    void countEnemys( Piece* _king, short & _count, QSet < QPoint >  & _moves );
+    void countKnights( QPoint _kingPos, short & _count, QSet < QPoint > & _moves );
+    void checkKinght( QPoint _xy, short & _count, QSet < QPoint > & _moves );
+    void foundEnemyForKingByDirection( short _xDir, short _yDir, Piece* _king, short & _count, QSet < QPoint > & _moves  );
 
 private:
     QSharedPointer < Board > m_board;
