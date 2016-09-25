@@ -89,6 +89,7 @@ void IGameController::boardHaveBeenClicked( QPoint _xy )
 
         m_board->move_figure( m_selectedPiece, _xy );
         clear_data();
+        clearMovePieceMap();
 
         m_board->switchTurn();
         fillMovePiecesMap();
@@ -122,25 +123,27 @@ void IGameController::fillMovePiecesMap()
                         }
                         else
                         {
-                            QSet < QPoint > tempSet = pCurrentPiece->getVectorOfPossibleMoves( m_board.data() ).toList().toSet();
+
+                            QSet < QPoint > tempSet = pCurrentPiece->getVectorOfPossibleMoves( *m_board ).toList().toSet();
 
                             if( count == 1 )
                             {
                                 tempSet.intersect( m_setProtectKingMoves );
-
-                                auto it = m_mapPinedPiece.find( pCurrentPiece );
-                                if( it != m_mapPinedPiece.end() )
-                                {
-                                    tempSet.intersect( it.value() );
-                                }
-
                             }
+
+
+                            auto it = m_mapPinedPiece.find( pCurrentPiece );
+                            if( it != m_mapPinedPiece.end() )
+                            {
+                                tempSet.intersect( it.value() );
+                            }
+
                             m_MovePiecesMap[ pCurrentPiece ] = tempSet;
                         }
                     }
                     else
                     {
-                        m_MovePiecesMap[ pCurrentPiece ] = pCurrentPiece->getVectorOfPossibleMoves( m_board.data() ).toList().toSet();
+                        m_MovePiecesMap[ pCurrentPiece ] = pCurrentPiece->getVectorOfPossibleMoves( *m_board ).toList().toSet();
                     }
                 }
             }
@@ -180,7 +183,7 @@ void IGameController::foundEnemyForKingByDirection(
         return;
 
 
-    QPoint xy( _king->getX(), _king->getY() );
+    QPoint xy( _king->getX() + _xDir, _king->getY() + _yDir );
     bool metOurPiece = false;
     PieceVisitor v( QPoint( _king->getX(), _king->getY() ), _xDir, _yDir  );
     QSet < QPoint > helpSet;
@@ -200,6 +203,7 @@ void IGameController::foundEnemyForKingByDirection(
                 {
                     if( metOurPiece )
                     {
+                        helpSet.insert( xy );
                         m_mapPinedPiece[pHelpPiece] = helpSet;
                         return;
                     }

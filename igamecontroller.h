@@ -46,6 +46,7 @@ private:
     bool isMoving ( QPoint _xy ) const;       //clicked for moving
     bool isAttack( QPoint _xy ) const;
     void clear_data();
+    void clearMovePieceMap();
     void updatePossibleMovesForPieces();
     short countOfPiecesWhoCanBitKing();
     void countEnemys( Piece* _king, short & _count, QSet < QPoint >  & _moves );
@@ -72,6 +73,11 @@ inline void IGameController::clear_data()
 {
     m_selectedPiece = nullptr;
     m_posForMoving.clear();
+}
+
+
+inline void IGameController::clearMovePieceMap()
+{
     m_MovePiecesMap.clear();
     m_mapPinedPiece.clear();
     m_setProtectKingMoves.clear();
