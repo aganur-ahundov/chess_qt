@@ -52,6 +52,7 @@ private:
     void countKnights( QPoint _kingPos, short & _count, QSet < QPoint > & _moves );
     void checkKinght( QPoint _xy, short & _count, QSet < QPoint > & _moves );
     void foundEnemyForKingByDirection( short _xDir, short _yDir, Piece* _king, short & _count, QSet < QPoint > & _moves  );
+    void fillMovePiecesMap();
 
 private:
     QSharedPointer < Board > m_board;
@@ -59,7 +60,9 @@ private:
     Piece* m_whiteKing;         //for some verifications
     Piece* m_blackKing;
     QVector < QPoint > m_posForMoving;
-    QMap < Piece*, QSet < QPoint > > m_piecesAndPossibleMovePos;
+    QMap < Piece*, QSet < QPoint > > m_MovePiecesMap;
+    QMap < Piece*, QSet < QPoint > > m_mapPinedPiece;
+    QSet < QPoint > m_setProtectKingMoves;
     QPoint m_pawnTransormPos;
 };
 
@@ -69,6 +72,9 @@ inline void IGameController::clear_data()
 {
     m_selectedPiece = nullptr;
     m_posForMoving.clear();
+    m_MovePiecesMap.clear();
+    m_mapPinedPiece.clear();
+    m_setProtectKingMoves.clear();
 }
 
 inline bool IGameController::isMoving( QPoint _xy ) const

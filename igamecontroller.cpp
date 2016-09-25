@@ -13,6 +13,7 @@ inline uint qHash (const QPoint & key)
 IGameController::~IGameController() = default;
 
 
+/********************************************************************************/
 IGameController::IGameController()
 {
 
@@ -37,6 +38,7 @@ IGameController::IGameController()
 }
 
 
+/********************************************************************************/
 void IGameController::pawn_transformation_slot( QPoint _xy )
 {
     m_pawnTransormPos = _xy;
@@ -44,6 +46,7 @@ void IGameController::pawn_transformation_slot( QPoint _xy )
 }
 
 
+/********************************************************************************/
 void IGameController::pawn_transformed_slot( PiecesTitle::Piece_ID _id )
 {
     switch ( _id )
@@ -67,13 +70,14 @@ void IGameController::pawn_transformed_slot( PiecesTitle::Piece_ID _id )
 }
 
 
+/********************************************************************************/
 void IGameController::boardHaveBeenClicked( QPoint _xy )
 {
 
     if ( isThatColor( _xy ) )
     {
         m_selectedPiece = m_board->getCell( _xy.x(), _xy.y() );
-        m_posForMoving = m_selectedPiece->getVectorOfPossibleMoves( *m_board );
+        m_posForMoving = m_MovePiecesMap[ m_selectedPiece ].toList().toVector(); //m_selectedPiece->getVectorOfPossibleMoves( *m_board );
 
         if(! m_posForMoving.empty() )
             emit have_some_cells_for_moving( m_posForMoving
@@ -87,12 +91,65 @@ void IGameController::boardHaveBeenClicked( QPoint _xy )
         clear_data();
 
         m_board->switchTurn();
+        fillMovePiecesMap();
     }
     else
         clear_data();
 
 }
 
+
+
+/********************************************************************************/
+void IGameController::fillMovePiecesMap()
+{
+    short count = countOfPiecesWhoCanBitKing();
+
+    for( int i = 0; i < Board::MAX_HEIGHT; i++ )
+    {
+        for( int j = 0; j < Board::MAX_WIDTH; j++ )
+        {
+            Piece* pCurrentPiece = m_board->getCell( i, j );
+            if( pCurrentPiece != nullptr )
+            {
+                if( pCurrentPiece->isWhite() == m_board->whitesAreMoving() )
+                {
+                    if( pCurrentPiece->getTitle().contains( "King" ) == false )
+                    {
+                        if( count == 2 )
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            QSet < QPoint > tempSet = pCurrentPiece->getVectorOfPossibleMoves( m_board.data() ).toList().toSet();
+
+                            if( count == 1 )
+                            {
+                                tempSet.intersect( m_setProtectKingMoves );
+
+                                auto it = m_mapPinedPiece.find( pCurrentPiece );
+                                if( it != m_mapPinedPiece.end() )
+                                {
+                                    tempSet.intersect( it.value() );
+                                }
+
+                            }
+                            m_MovePiecesMap[ pCurrentPiece ] = tempSet;
+                        }
+                    }
+                    else
+                    {
+                        m_MovePiecesMap[ pCurrentPiece ] = pCurrentPiece->getVectorOfPossibleMoves( m_board.data() ).toList().toSet();
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/********************************************************************************/
 bool IGameController::isThatColor( QPoint _xy ) const
 {
     Piece* p = m_board->getCell( _xy.x(), _xy.y() );
@@ -104,12 +161,14 @@ bool IGameController::isThatColor( QPoint _xy ) const
 }
 
 
+/********************************************************************************/
 void IGameController::boared_create_piece_slot( const QString &_title, QPoint _xy )
 {
     emit boared_create_piece_signal( _title, _xy );
 }
 
 
+/********************************************************************************/
 void IGameController::foundEnemyForKingByDirection(
                         short _xDir, short _yDir
                         , Piece* _king, short & _count
@@ -141,7 +200,7 @@ void IGameController::foundEnemyForKingByDirection(
                 {
                     if( metOurPiece )
                     {
-                        m_piecesAndPossibleMovePos[pHelpPiece] = helpSet;
+                        m_mapPinedPiece[pHelpPiece] = helpSet;
                         return;
                     }
 
@@ -181,20 +240,22 @@ void IGameController::foundEnemyForKingByDirection(
 }
 
 
+
+/********************************************************************************/
 short IGameController::countOfPiecesWhoCanBitKing()
 {
     Piece * ourKing = ( ( m_board->whitesAreMoving() ) ? m_whiteKing : m_blackKing );
     short count = 0;
+    m_setProtectKingMoves.clear();
 
-    QSet < QPoint > setOfMoves;
-
-    countKnights( QPoint( ourKing->getX(), ourKing->getY() ), count, setOfMoves );
-    countEnemys( ourKing, count, setOfMoves );
+    countKnights( QPoint( ourKing->getX(), ourKing->getY() ), count, m_setProtectKingMoves );
+    countEnemys( ourKing, count, m_setProtectKingMoves );
 
     return count;
 }
 
 
+/********************************************************************************/
 void IGameController::checkKinght( QPoint _xy, short & _count, QSet < QPoint > & _moves )
 {
     if( _count >= 2 )
@@ -220,6 +281,7 @@ void IGameController::checkKinght( QPoint _xy, short & _count, QSet < QPoint > &
 }
 
 
+/********************************************************************************/
 void IGameController::countKnights( QPoint _kingPos, short &_count, QSet < QPoint > & _moves )
 {
     checkKinght( QPoint( _kingPos.x() - 1 , _kingPos.y() - 2 ), _count,  _moves );
@@ -233,6 +295,7 @@ void IGameController::countKnights( QPoint _kingPos, short &_count, QSet < QPoin
 }
 
 
+/********************************************************************************/
 void IGameController::countEnemys( Piece *_king, short & _count, QSet < QPoint > & _moves  )
 {
     foundEnemyForKingByDirection( -1, 0, _king, _count, _moves  );
@@ -246,9 +309,11 @@ void IGameController::countEnemys( Piece *_king, short & _count, QSet < QPoint >
 }
 
 
+/********************************************************************************/
 void IGameController::start()
 {
     m_board->restart();
     m_whiteKing = m_board->getCell( 4, 7 );
     m_blackKing = m_board->getCell( 4, 0 );
+    fillMovePiecesMap();
 }
