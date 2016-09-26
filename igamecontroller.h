@@ -42,29 +42,46 @@ signals:
     void pawn_transformation_signal();
 
 private:
+    /*--------------------------------------------------------------------------*/
     bool isThatColor( QPoint _xy ) const;     //check is it correct piece
     bool isMoving ( QPoint _xy ) const;       //clicked for moving
     bool isAttack( QPoint _xy ) const;
+    bool isValidPos( QPoint _xy ) const;
+
     void clear_data();
     void clearMovePieceMap();
-    void updatePossibleMovesForPieces();
+
+
+    /*-------------------------------------------------------------------------------*/
+    // set of check-functions for move pieces
     short countOfPiecesWhoCanBitKing();
     void countEnemys( Piece* _king, short & _count, QSet < QPoint >  & _moves );
     void countKnights( QPoint _kingPos, short & _count, QSet < QPoint > & _moves );
     void checkKinght( QPoint _xy, short & _count, QSet < QPoint > & _moves );
     void foundEnemyForKingByDirection( short _xDir, short _yDir, Piece* _king, short & _count, QSet < QPoint > & _moves  );
-    void fillMovePiecesMap();
+    void fillMovePiecesMap();       //fiil map using check-functions
+    void addKingMovesSet();
+    bool checkKingIsNotUnderAttack( QPoint _xy );
+    bool checkCellByDirection( QPoint _xy, short _x, short _y );
+    /*--------------------------------------------------------------------------------*/
+
 
 private:
     QSharedPointer < Board > m_board;
+
+    /*-----------------------------------------------*/
+    QPoint m_pawnTransormPos;
     Piece* m_selectedPiece;
-    Piece* m_whiteKing;         //for some verifications
+    Piece* m_whiteKing;
     Piece* m_blackKing;
+
+    /*-----------------------------------------------*/
+    //positions for move pieces
     QVector < QPoint > m_posForMoving;
     QMap < Piece*, QSet < QPoint > > m_MovePiecesMap;
     QMap < Piece*, QSet < QPoint > > m_mapPinedPiece;
     QSet < QPoint > m_setProtectKingMoves;
-    QPoint m_pawnTransormPos;
+
 };
 
 
@@ -94,5 +111,11 @@ inline bool IGameController::isMoving( QPoint _xy ) const
     return false;
 }
 
+
+inline bool IGameController::isValidPos( QPoint _xy ) const
+{
+    return _xy.x() >= 0 && _xy.x() < 8 &&
+            _xy.y() >= 0 && _xy.y() < 8;
+}
 
 #endif // IGAMECONTROLLER_H

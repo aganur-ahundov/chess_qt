@@ -143,7 +143,7 @@ void IGameController::fillMovePiecesMap()
                     }
                     else
                     {
-                        m_MovePiecesMap[ pCurrentPiece ] = pCurrentPiece->getVectorOfPossibleMoves( *m_board ).toList().toSet();
+                        addKingMovesSet();
                     }
                 }
             }
@@ -190,8 +190,7 @@ void IGameController::foundEnemyForKingByDirection(
     Piece* pHelpPiece;
 
 
-    while ( xy.x() >= 0 && xy.x() < 8 &&
-            xy.y() >= 0 && xy.y() < 8 )
+    while ( isValidPos( xy ) )
     {
         Piece* nextCell = m_board->getCell( xy.x(), xy.y() );
         if( nextCell != nullptr )
@@ -266,8 +265,7 @@ void IGameController::checkKinght( QPoint _xy, short & _count, QSet < QPoint > &
         return;
 
 
-    if ( _xy.x() >= 0 && _xy.x() < 8 &&
-         _xy.y() >= 0 && _xy.y() < 8 )
+    if ( isValidPos( _xy ) )
     {
         Piece* p = m_board->getCell( _xy.x(), _xy.y() );
         if ( p )
@@ -310,6 +308,89 @@ void IGameController::countEnemys( Piece *_king, short & _count, QSet < QPoint >
     foundEnemyForKingByDirection( 1, 1, _king, _count, _moves  );
     foundEnemyForKingByDirection( 0, 1, _king, _count, _moves  );
     foundEnemyForKingByDirection( -1, 1, _king, _count,_moves  );
+}
+
+
+/********************************************************************************/
+void IGameController::addKingMovesSet()
+{
+    Piece* king = ( m_board->whitesAreMoving() ) ? m_whiteKing : m_blackKing;
+
+    QSet < QPoint > standartMovePositions = king->getVectorOfPossibleMoves( *m_board ).toList().toSet();
+
+    auto it = standartMovePositions.begin();
+    auto end = standartMovePositions.end();
+
+    while( it != end )
+    {
+        if ( !checkKingIsNotUnderAttack( *it ) )
+            standartMovePositions.erase( it );
+
+        it++;
+    }
+
+    m_MovePiecesMap[ king ] = standartMovePositions;
+}
+
+
+/********************************************************************************/
+bool IGameController::checkKingIsNotUnderAttack( QPoint _xy )
+{
+   if( !checkCellByDirection( _xy, -1, 0 ) )
+       return false;
+   if( !checkCellByDirection( _xy, -1, -1 ) )
+       return false;
+   if( !checkCellByDirection( _xy, 0, -1 ) )
+       return false;
+   if( !checkCellByDirection( _xy, 1, -1 ) )
+       return false;
+   if( !checkCellByDirection( _xy, 1, 0 ) )
+       return false;
+   if( !checkCellByDirection( _xy, 1, 1 ) )
+       return false;
+   if( !checkCellByDirection( _xy, 0, 1 ) )
+       return false;
+   if( !checkCellByDirection( _xy, -1, 1 ) )
+       return false;
+
+   return true;
+}
+
+
+/********************************************************************************/
+bool IGameController::checkCellByDirection( QPoint _xy, short _xDir, short _yDir )
+{
+    PieceVisitor v( _xy, _xDir, _yDir  );
+
+    _xy.rx() += _xDir;
+    _xy.ry() += _yDir;
+
+
+    while( isValidPos( _xy ) )
+    {
+        Piece* pCurrentPiece = m_board->getCell( _xy.x(), _xy.y() );
+        if( pCurrentPiece != nullptr )
+        {
+            if( pCurrentPiece->isWhite() == m_board->whitesAreMoving() )
+            {
+                if( !pCurrentPiece->getTitle().contains( "King" ) )
+                    return true;
+            }
+            else
+            {
+                pCurrentPiece->accept( v );
+                if( v.hit() )
+                    return false;
+                else
+                    return true;
+            }
+        }
+
+        _xy.rx() += _xDir;
+        _xy.ry() += _yDir;
+    }
+
+    return true;
 }
 
 
