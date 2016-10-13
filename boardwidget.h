@@ -24,6 +24,7 @@ public:
     void clearVectorOfPositions();
     void setPositionOfCurrentPiece( QPoint _xy );
     void clearPositionOfCurentPiece();
+    void clearBoard();
 
 signals:
     void clicked_on_board( QPoint _xy ) const; // signal send window coordinates
@@ -44,6 +45,7 @@ private:
     QPoint m_frameOfCurrentPiece;
 
     static const int CELL_SIZE = 95;
+    static const int BOARD_SIZE = 8;
 };
 
 inline void BoardWidget::setVectorOfPositions( const QVector < QPoint > &_v )

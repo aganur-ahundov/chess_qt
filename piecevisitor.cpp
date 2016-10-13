@@ -45,12 +45,12 @@ void PieceVisitor::visit( const Pawn & _p )
     {
        if( _p.isWhite() )
        {
-           if( _p.getY() - m_kingPos.y() == -1 )
+           if( _p.getY() - m_kingPos.y() == 1 )
                m_hit = true;
        }
        else
        {
-           if( _p.getY() - m_kingPos.y() == 1 )
+           if( _p.getY() - m_kingPos.y() == -1 )
                m_hit = true;
        }
 

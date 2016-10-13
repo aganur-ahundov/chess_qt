@@ -118,37 +118,59 @@ void IGameController::fillMovePiecesMap()
                     if( pCurrentPiece->getTitle().contains( "King" ) == false )
                     {
                         if( count == 2 )
-                        {
-                            continue;
-                        }
+                            continue;\
                         else
-                        {
-
-                            QSet < QPoint > tempSet = pCurrentPiece->getVectorOfPossibleMoves( *m_board ).toList().toSet();
-
-                            if( count == 1 )
-                            {
-                                tempSet.intersect( m_setProtectKingMoves );
-                            }
-
-
-                            auto it = m_mapPinedPiece.find( pCurrentPiece );
-                            if( it != m_mapPinedPiece.end() )
-                            {
-                                tempSet.intersect( it.value() );
-                            }
-
-                            m_MovePiecesMap[ pCurrentPiece ] = tempSet;
-                        }
+                            newMovesForPieces( pCurrentPiece, count );
                     }
                     else
                     {
-                        addKingMovesSet();
+                        newMovesForKing( count );
                     }
                 }
             }
         }
     }
+}
+
+
+/********************************************************************************/
+void IGameController::newMovesForKing( short _count )
+{
+    addKingMovesSet();
+
+    if( m_MovePiecesMap.empty()  )
+    {
+        if( _count != 0 ) //mat
+        {
+            emit game_over_signal( !m_board->whitesAreMoving() );
+        }
+        else    //pat
+        {
+            emit draw_signal();
+        }
+    }
+}
+
+
+/********************************************************************************/
+void IGameController::newMovesForPieces( Piece* _pCurrentPiece, short _count )
+{
+    QSet < QPoint > tempSet = _pCurrentPiece->getVectorOfPossibleMoves( *m_board ).toList().toSet();
+
+    if( _count == 1 )
+    {
+        tempSet.intersect( m_setProtectKingMoves );
+    }
+
+
+    auto it = m_mapPinedPiece.find( _pCurrentPiece );
+    if( it != m_mapPinedPiece.end() )
+    {
+        tempSet.intersect( it.value() );
+    }
+
+    if( tempSet.empty() == false )
+        m_MovePiecesMap[ _pCurrentPiece ] = tempSet;
 }
 
 
@@ -219,6 +241,8 @@ void IGameController::foundEnemyForKingByDirection(
 
                     break;
                 }
+                else
+                    break;
             }
             else
             {
@@ -284,6 +308,28 @@ void IGameController::checkKinght( QPoint _xy, short & _count, QSet < QPoint > &
 
 
 /********************************************************************************/
+bool IGameController::checkKinght( QPoint _xy )
+{
+    if ( isValidPos( _xy ) )
+    {
+        Piece* p = m_board->getCell( _xy.x(), _xy.y() );
+        if ( p )
+        {
+            if( p->isWhite() != m_board->whitesAreMoving() )
+            {
+                if( p->getTitle().contains( "Knight" ) )
+                  {
+                    return true;
+                  }
+            }
+        }
+    }
+
+    return false;
+}
+
+
+/********************************************************************************/
 void IGameController::countKnights( QPoint _kingPos, short &_count, QSet < QPoint > & _moves )
 {
     checkKinght( QPoint( _kingPos.x() - 1 , _kingPos.y() - 2 ), _count,  _moves );
@@ -311,25 +357,57 @@ void IGameController::countEnemys( Piece *_king, short & _count, QSet < QPoint >
 }
 
 
+void IGameController::checkCastlingMoves( QSet < QPoint > & _s, const Piece* _king, QPoint _xy )
+{
+    if( _xy.x() - _king->getX()  == 1 && _xy.y() == _king->getY() )
+    {
+        _s.erase( _s.find( QPoint( _xy.x() + 1, _xy.y() ) ) );
+    }
+    else if( _xy.x() - _king->getX()  == -1 && _xy.y() == _king->getY() )
+    {
+        _s.erase( _s.find( QPoint( _xy.x() - 1, _xy.y() ) ) );
+    }
+}
+
 /********************************************************************************/
 void IGameController::addKingMovesSet()
 {
     Piece* king = ( m_board->whitesAreMoving() ) ? m_whiteKing : m_blackKing;
 
     QSet < QPoint > standartMovePositions = king->getVectorOfPossibleMoves( *m_board ).toList().toSet();
+    QSet < QPoint > pointsForErase = standartMovePositions;
 
-    auto it = standartMovePositions.begin();
-    auto end = standartMovePositions.end();
+    auto it = pointsForErase.begin();
+    auto end = pointsForErase.end();
 
     while( it != end )
     {
         if ( !checkKingIsNotUnderAttack( *it ) )
-            standartMovePositions.erase( it );
+          {
+            pointsForErase.erase( it );
+          }
 
         it++;
     }
 
-    m_MovePiecesMap[ king ] = standartMovePositions;
+    standartMovePositions.intersect( pointsForErase );
+    if( !king->isMoved() && !standartMovePositions.empty() )
+    {
+
+        auto queen_castling = standartMovePositions.find( QPoint( QUEEN_CASTLING_POS, king->getY() ) );
+        auto king_castling = standartMovePositions.find( QPoint( KING_CASTLING_POS, king->getY() ) );
+
+        if( queen_castling == standartMovePositions.end() )
+            standartMovePositions.erase( standartMovePositions.find( QPoint( QUEEN_CASTLING_POS - 1, king->getY() ) ) );
+
+        if( king_castling == standartMovePositions.end() )
+            standartMovePositions.erase( standartMovePositions.find( QPoint( KING_CASTLING_POS + 1, king->getY() ) ) );
+
+    }
+
+
+    if( !standartMovePositions.empty() )
+        m_MovePiecesMap[ king ] = standartMovePositions;
 }
 
 
@@ -352,6 +430,23 @@ bool IGameController::checkKingIsNotUnderAttack( QPoint _xy )
        return false;
    if( !checkCellByDirection( _xy, -1, 1 ) )
        return false;
+   if( checkKinght( QPoint ( _xy.x() - 1, _xy.y() - 2 ) ) )
+       return false;
+   if( checkKinght( QPoint ( _xy.x() + 1, _xy.y() - 2 ) ) )
+       return false;
+   if( checkKinght( QPoint ( _xy.x() + 2, _xy.y() - 1 ) ) )
+       return false;
+   if( checkKinght( QPoint ( _xy.x() + 2, _xy.y() + 1 ) ) )
+       return false;
+   if( checkKinght( QPoint ( _xy.x() - 1, _xy.y() + 2 ) ) )
+       return false;
+   if( checkKinght( QPoint ( _xy.x() + 1, _xy.y() + 2 ) ) )
+       return false;
+   if( checkKinght( QPoint ( _xy.x() - 2, _xy.y() + 1 ) ) )
+       return false;
+   if( checkKinght( QPoint ( _xy.x() - 2, _xy.y() - 1 ) ) )
+       return false;
+
 
    return true;
 }
@@ -401,4 +496,11 @@ void IGameController::start()
     m_whiteKing = m_board->getCell( 4, 7 );
     m_blackKing = m_board->getCell( 4, 0 );
     fillMovePiecesMap();
+}
+
+
+/********************************************************************************/
+void IGameController::restart_slot()
+{
+    start();
 }

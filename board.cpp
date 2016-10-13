@@ -79,7 +79,7 @@ void Board::move_figure( Piece *_p, QPoint _c )    //отправлять соо
     if ( !posIsValid( _c ) )
         throw std::runtime_error( "Invalid position" );
 
-    m_pieces[ _p->getX() ][ _p->getY() ].data()->moving( _c );
+     m_pieces[ _p->getX() ][ _p->getY() ].data()->moving( _c );
 
      m_pieces[ _c.x() ][ _c.y() ].reset( m_pieces[ _p->getX() ][ _p->getY() ].take() );
      Q_ASSERT( m_pieces[ _p->getX() ][ _p->getY() ].isNull() );

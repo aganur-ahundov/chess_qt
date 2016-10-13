@@ -30,6 +30,7 @@ public slots:
     void boared_create_piece_slot( QString const & _title, QPoint _xy );
     void pawn_transformation_slot( QPoint _xy );
     void pawn_transformed_slot( PiecesTitle::Piece_ID );
+    void restart_slot();
 
 
 signals:
@@ -40,6 +41,8 @@ signals:
     void clearPosOfCurrentPiece();
     void castling_signal( QPoint, QPoint );
     void pawn_transformation_signal();
+    void game_over_signal( bool _winner );
+    void draw_signal();
 
 private:
     /*--------------------------------------------------------------------------*/
@@ -51,6 +54,8 @@ private:
     void clear_data();
     void clearMovePieceMap();
 
+    void newMovesForPieces( Piece* _pCurrentPiece, short _count );
+    void newMovesForKing( short _count );
 
     /*-------------------------------------------------------------------------------*/
     // set of check-functions for move pieces
@@ -58,11 +63,13 @@ private:
     void countEnemys( Piece* _king, short & _count, QSet < QPoint >  & _moves );
     void countKnights( QPoint _kingPos, short & _count, QSet < QPoint > & _moves );
     void checkKinght( QPoint _xy, short & _count, QSet < QPoint > & _moves );
+    bool checkKinght( QPoint _xy );
     void foundEnemyForKingByDirection( short _xDir, short _yDir, Piece* _king, short & _count, QSet < QPoint > & _moves  );
     void fillMovePiecesMap();       //fiil map using check-functions
     void addKingMovesSet();
     bool checkKingIsNotUnderAttack( QPoint _xy );
     bool checkCellByDirection( QPoint _xy, short _x, short _y );
+    void checkCastlingMoves( QSet < QPoint >  & _s, const Piece* _king, QPoint _xy );
     /*--------------------------------------------------------------------------------*/
 
 
@@ -81,6 +88,10 @@ private:
     QMap < Piece*, QSet < QPoint > > m_MovePiecesMap;
     QMap < Piece*, QSet < QPoint > > m_mapPinedPiece;
     QSet < QPoint > m_setProtectKingMoves;
+
+
+    static const short QUEEN_CASTLING_POS = 3;
+    static const short KING_CASTLING_POS = 5;
 
 };
 

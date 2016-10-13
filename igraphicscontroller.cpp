@@ -15,6 +15,7 @@ IGraphicsController::IGraphicsController()
 
     setBackground();\
     loadPiecesInfo();
+    createGameOverWindow();
 
     connect( m_gameBoard.data(), SIGNAL(clicked_on_board(QPoint))
              , SLOT(clicked_point(QPoint)) );
@@ -84,6 +85,7 @@ void IGraphicsController::repaint_board() const
     m_gameBoard->repaint();
 }
 
+
 void IGraphicsController::create_piece(const QString &_title, QPoint _xy) const
 {
     auto it = m_piecesAndRoutes.constFind( _title );
@@ -92,6 +94,7 @@ void IGraphicsController::create_piece(const QString &_title, QPoint _xy) const
 
     m_gameBoard->createPiece( it.value(), _xy );
 }
+
 
 void IGraphicsController::show() const
 {
@@ -106,6 +109,7 @@ void IGraphicsController::clicked_point(QPoint _xy)
     m_gameBoard->clearPositionOfCurentPiece();
 }
 
+
 void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v, QPoint _xy )
 {
     m_gameBoard->setVectorOfPositions( _v );
@@ -116,4 +120,48 @@ void IGraphicsController::paint_cells_for_moving( const QVector < QPoint > & _v,
 void IGraphicsController::pawn_transformation_slot()
 {
     m_pawnDialog->show();
+}
+
+
+void IGraphicsController::createGameOverWindow()
+{
+    m_gameOverWindow = QSharedPointer < QLabel > ( new QLabel() );
+    m_gameOverWindow->resize( 200, 200 );
+
+    QPushButton* restart = new QPushButton( "Restart", m_gameOverWindow.data() );
+    restart->move( 70, 130 );
+
+    QPushButton* close = new QPushButton( "Exit", m_gameOverWindow.data() );
+    close->move( 70, 160 );
+
+    connect( close, SIGNAL( clicked(bool) ), m_gameOverWindow.data(), SLOT( close() ) );
+    connect( close, SIGNAL( clicked(bool) ), m_gameBoard.data(), SLOT( close() ) );
+
+    connect( restart, SIGNAL( clicked(bool) ), m_gameOverWindow.data(), SLOT( close() ) );
+    connect( restart, SIGNAL( clicked( bool )), SLOT( reset_board() ) );
+}
+
+
+void IGraphicsController::game_over_slot( bool _winner )
+{
+    QString winnerName = ( _winner ) ? "\tWhite's" : "\tBlack's";
+    winnerName += " won";
+    m_gameOverWindow->setText( winnerName );
+    m_gameOverWindow->setFocus();
+    m_gameOverWindow->show();
+}
+
+
+void IGraphicsController::draw_slot()
+{
+    m_gameOverWindow->setText( "It's draw" );
+    m_gameOverWindow->setFocus();
+    m_gameOverWindow->show();
+
+}
+
+void IGraphicsController::reset_board()
+{
+    m_gameBoard->clearBoard();
+    emit restart_signal();
 }

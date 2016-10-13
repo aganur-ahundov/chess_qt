@@ -8,7 +8,6 @@
 BoardWidget::BoardWidget( QWidget *parent )
     : QWidget( parent )
 {
-    const int BOARD_SIZE = 8;
 
     m_gameBoard = new QScopedPointer < QLabel >* [BOARD_SIZE];
 
@@ -120,3 +119,11 @@ void BoardWidget::paintEvent( QPaintEvent *_e )
 }
 
 
+void BoardWidget::clearBoard()
+{
+    for( int i = 0; i < BOARD_SIZE; i++ )
+    {
+        for( int j = 0; j < BOARD_SIZE; j++ )
+            m_gameBoard[i][j].reset();
+    }
+}
